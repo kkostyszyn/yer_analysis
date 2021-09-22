@@ -77,7 +77,9 @@ class Translate:
 		sigma_out = (vowels_out | cons_out)
 		sigmaStar = pynini.closure(vowels_in | vowels_out | cons_in | cons_out | helpers | epsilon )
 
-		#In addition to the palatalization - add an instance that will look for 'Cie' and make it 'C^j j E', per wikipron 
+		#FIX THIS
+		# 1) For 'Cie' sequences, change to 'Cʲ i ɛ' sequence 
+		# 2) All other instances (except the fricatives & nasal), rewrite 'Ci' as 'Cʲ'
 		#find all instances of palatalization		
 		s_pal = (T("si", "ɕi") | T("ś", "ɕ"))
 		s_palatal = pynini.cdrewrite(s_pal, sigmaStar, sigmaStar, sigmaStar).optimize()
