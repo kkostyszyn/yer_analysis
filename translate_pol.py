@@ -16,9 +16,10 @@ class Translate:
 		self.epsilon = pynini.epsilon_machine()
 
 		#DEFINE POLISH INVENTORY - INPUT VS. OUTPUT
-		self.vowels = (A("a") | A("ą") | A("e") | A("ę") | A("i") | A("o") |  A("ó") | A("u") | A("y"))
-
-		self.cons_in = (A("b") | 
+		vowels_in = (A("a") | A("ą") | A("e") | A("ę") | A("i") | A("o") |  A("ó") | A("u") | A("y"))
+		vowels_out =(A("a") | A("i") | A("ɔ") | A("u") | A("ɛ") | A("ɨ"))
+		
+		cons_in = (A("b") | 
 					A("c") | 
 					A("ć") |    
 					A("d") | 
@@ -71,20 +72,22 @@ class Translate:
 					A("ʑ") | #ź
 					A("ʒ")) #ż
 
-		sigma_out = (vowels | cons_out)
-		sigmaStar = pynini.closure(vowels | cons_in | cons_out | epsilon )
+		sigma_out = (vowels_out | cons_out)
+		sigmaStar = pynini.closure(vowels_in | vowels_out | cons_in | cons_out | epsilon )
 
-		#find all instances of palatalization 
+		#In addition to the palatalization - add an instance that will look for 'Cie' and make it 'C^j j E', per wikipron 
+		#find all instances of palatalization		
 		s_pal = (T("si", "ɕi") | T("ś", "ɕ"))
 		s_palatal = pynini.cdrewrite(s_pal, sigmaStar, sigmaStar, sigmaStar).optimize()
 		z_pal = (T("zi", "ʑi") | T("ź", "ʑ"))
 		z_palatal = pynini.cdrewrite(z_pal, sigmaStar, sigmaStar, sigmaStar).optimize()
 		n_pal = (T("ni", "ɲi") | T("ń", "ɲ"))
 		n_palatal = pynini.cdrewrite(n_pal, sigmaStar, sigmaStar, sigmaStar).optimize()
-		k_palatal = pynini.cdrewrite(T("ki", "Ci"), sigmaStar, sigmaStar, sigmaStar).optimize()
+		k_palatal = pynini.cdrewrite(T("ki", "kʲ"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		g_palatal = pynini.cdrewrite(T("gi", "ɟi"), sigmaStar, sigmaStar, sigmaStar).optimize()
-		   
-		self.palatalization = (s_palatal @ z_palatal @ n_palatal @ k_palatal @ g_palatal).optimize()
+		m_palatal = pynini.cdrewrite(T("mi", "mʲ"), sigmaStar, sigmaStar, sigmaStar).optimize()   
+		  
+		self.palatalization = (s_palatal @ z_palatal @ n_palatal @ k_palatal @ g_palatal @ m_palatal).optimize()
 
 		#once palatalization is normalized, do 1-to-1 transductions for all other characters
 			
@@ -95,23 +98,26 @@ class Translate:
 		#ch    
 		ch = pynini.cdrewrite(T("ch", "x"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		#cz
-		cz = pynini.cdrewrite(T("cz", "tʃ"), sigmaStar, sigmaStar, sigmaStar).optimize()
+		cz = pynini.cdrewrite(T("cz", "t͡s"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		#rz
-		rz = pynini.cdrewrite((T("rz", "ʒ") | T("ż", "ʒ")), sigmaStar, sigmaStar, sigmaStar).optimize()
+		rz = pynini.cdrewrite((T("rz", "ʐ") | T("ż", "ʐ")), sigmaStar, sigmaStar, sigmaStar).optimize()
 			
 		self.multi_char = (sz @ ch @ cz @ rz).optimize()
 
+		#Add rule for word-final devoicing 
 			
 		#single characters
 		#w->v
 		w = pynini.cdrewrite(T("w", "v"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		#c->ts
-		c = pynini.cdrewrite(T("c", "ts"), sigmaStar, sigmaStar, sigmaStar).optimize()
-		tc = pynini.cdrewrite(T("ć", "t"), sigmaStar, sigmaStar, sigmaStar).optimize()
+		c = pynini.cdrewrite(T("c", "t͡s"), sigmaStar, sigmaStar, sigmaStar).optimize()
+		tc = pynini.cdrewrite(T("ć", "t͡ɕ"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		#h->x
 		h = pynini.cdrewrite(T("h", "x"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		#l->w
 		barred_L = pynini.cdrewrite(T("ł", "w"), sigmaStar, sigmaStar, sigmaStar).optimize()
+		
+		#Nasal vowels - add tilde 
 			
 		self.sing_char = (w @ c @ tc @ h @ barred_L).optimize()
 			
