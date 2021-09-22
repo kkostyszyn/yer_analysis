@@ -72,8 +72,10 @@ class Translate:
 					A("ʑ") | #ź
 					A("ʒ")) #ż
 
+		helpers = (A("~") | A(" "))
+
 		sigma_out = (vowels_out | cons_out)
-		sigmaStar = pynini.closure(vowels_in | vowels_out | cons_in | cons_out | epsilon )
+		sigmaStar = pynini.closure(vowels_in | vowels_out | cons_in | cons_out | helpers | epsilon )
 
 		#In addition to the palatalization - add an instance that will look for 'Cie' and make it 'C^j j E', per wikipron 
 		#find all instances of palatalization		
@@ -94,11 +96,11 @@ class Translate:
 		#other multi-character tranductions
 		#dz combined into the z palatalization 
 		#sz
-		sz = pynini.cdrewrite(T("sz", "ʃ"), sigmaStar, sigmaStar, sigmaStar).optimize()
+		sz = pynini.cdrewrite(T("sz", "ʂ"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		#ch    
 		ch = pynini.cdrewrite(T("ch", "x"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		#cz
-		cz = pynini.cdrewrite(T("cz", "t͡s"), sigmaStar, sigmaStar, sigmaStar).optimize()
+		cz = pynini.cdrewrite(T("cz", "t͡ʂ"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		#rz
 		rz = pynini.cdrewrite((T("rz", "ʐ") | T("ż", "ʐ")), sigmaStar, sigmaStar, sigmaStar).optimize()
 			
@@ -117,9 +119,12 @@ class Translate:
 		#l->w
 		barred_L = pynini.cdrewrite(T("ł", "w"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		
-		#Nasal vowels - add tilde 
+		#Update vowels
+		#		vowels_in = (A("a") | A("ą") | A("e") | A("ę") | A("i") | A("o") |  A("ó") | A("u") | A("y"))
+		nasals = pynini.cdrewrite(T("ą", "a~") | T("ę", "ɛ~"), sigmaStar, sigmaStar, sigmaStar), optimize()
+		other_vowels = pynini.cdrewrite(T("e", "ɛ") | T("o", "ɔ") | T("ó", "u") | T("y", "ɨ"), sigmaStar, sigmaStar, sigmaStar).optimize()
 			
-		self.sing_char = (w @ c @ tc @ h @ barred_L).optimize()
+		self.sing_char = (w @ c @ tc @ h @ barred_L @ nasals @ other_vowels).optimize()
 			
 #to determine the transcription of a single word, barring vowels    
 	def t(line:str) -> str:
