@@ -43,12 +43,12 @@ class Translate:
 					A("ź") |    
 					A("ż"))
 		cons_out = (A("b") | 
-					A("[t͡s]") | #orthographic c
-					A("[t͡ʂ]") | #orthographic ć
+					A("C") | #orthographic c
+					A("[tʃ]") | #orthographic ć
 					A("d") | 
-					A("[d͡z]") | #dz
-					A("[d͡ʑ]") | #palatal dz
-					A("[d͡ʒ]") | #dż
+					A("[dz]") | #dz
+					A("[dʑ]") | #palatal dz
+					A("[dʒ]") | #dż
 					A("f") |    
 					A("g") |    
 					A("ɟ") | #palatal g 
@@ -64,7 +64,7 @@ class Translate:
 					A("p") |    
 					A("r") |    
 					A("s") |    
-					A("ʂ") | #ś    
+					A("ʃ") | #ś    
 					A("ɕ") | #palatal s
 					A("t") |    
 					A("v") | #w  
@@ -72,7 +72,7 @@ class Translate:
 					A("ʑ") | #ź
 					A("ʒ")) #ż
 
-		helpers = (A("~") | A(" ") | A('ʲ') | A("͡"))
+		helpers = (A("~") | A(" ") | A('ʲ'))
 		palatals = (A("ɕ") | A("ʑ") | A("ɲ") | A("kʲ") | A("ɟʲ") | A("mʲ"))
 
 		sigma_out = (vowels_out | cons_out | helpers)
@@ -88,14 +88,15 @@ class Translate:
 		z_palatal = pynini.cdrewrite(z_pal, sigmaStar, sigmaStar, sigmaStar).optimize()
 		n_pal = (T("ni", "ɲi") | T("ń", "ɲ"))
 		n_palatal = pynini.cdrewrite(n_pal, sigmaStar, sigmaStar, sigmaStar).optimize()
-		#k_palatal = pynini.cdrewrite(T("ki", "k"), sigmaStar, sigmaStar, sigmaStar).optimize()
-		#g_palatal = pynini.cdrewrite(T("gi", "ɟ"), sigmaStar, sigmaStar, sigmaStar).optimize()
-		#m_palatal = pynini.cdrewrite(T("mi", "m"), sigmaStar, sigmaStar, sigmaStar).optimize()   
+		k_palatal = pynini.cdrewrite(T("ki", "kʲ"), sigmaStar, sigmaStar, sigmaStar).optimize()
+		g_palatal = pynini.cdrewrite(T("gi", "ɟi"), sigmaStar, sigmaStar, sigmaStar).optimize()
+		m_palatal = pynini.cdrewrite(T("mi", "mʲ"), sigmaStar, sigmaStar, sigmaStar).optimize()   
+		
+		
 		
 		pal_before_vowel = pynini.cdrewrite(T("e", " j ɛ") | T("a", " j a"), palatals, sigmaStar, sigmaStar).optimize()
-		#Change so that it only affects sequences that have 'i', 
 		  
-		self.palatalization = (s_palatal @ z_palatal @ n_palatal).optimize()
+		self.palatalization = (s_palatal @ z_palatal @ n_palatal @ k_palatal @ g_palatal @ m_palatal).optimize()
 
 		#once palatalization is normalized, do 1-to-1 transductions for all other characters
 			
@@ -106,7 +107,7 @@ class Translate:
 		#ch    
 		ch = pynini.cdrewrite(T("ch", "x"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		#cz
-		cz = pynini.cdrewrite(T("cz", "[t͡ʂ]"), sigmaStar, sigmaStar, sigmaStar).optimize()
+		cz = pynini.cdrewrite(T("cz", "t͡ʂ"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		#rz
 		rz = pynini.cdrewrite((T("rz", "ʐ") | T("ż", "ʐ")), sigmaStar, sigmaStar, sigmaStar).optimize()
 			
@@ -115,9 +116,9 @@ class Translate:
 		#Add rule for word-final devoicing
 		voiced_cons = (A("b") | 
 					A("d") | 
-					A("[d͡z]") | #dz
-					A("[d͡ʑ]") | #palatal dz
-					A("[d͡ʒ]") | #dż
+					A("[dz]") | #dz
+					A("[dʑ]") | #palatal dz
+					A("[dʒ]") | #dż
 					A("g") |    
 					A("ɟ") | #palatal g 
 					A("x") | #h
@@ -132,19 +133,19 @@ class Translate:
 					A("z") |    
 					A("ʑ") | #ź
 					A("ʒ")) #ż)
-		voiceless_cons = (A("[t͡s]") |
-					A("[t͡ʂ]") | #orthographic ć
+		voiceless_cons = (A("C") |
+					A("[tʃ]") | #orthographic ć
 					A("f") |    
 					A("x") | #h
 					A("k") | 
 					A("c") | #palatal k   
 					A("p") |       
 					A("s") |    
-					A("ʂ") | #ś    
+					A("ʃ") | #ś    
 					A("ɕ") | #palatal s
 					A("t"))
-		devoiced_pairs = (T("b", "p") | T("d", "t") | T("g", "k") | T("v", "f") | T("z", "s") | T("ʒ", "ʂ") | T("ʑ","ɕ") | T("ɟ","c") | T("[dz]","C") | T("[dʒ]","[tʃ]"))
-		voiced_pairs = (T("p", "b") | T("t", "d") | T("k", "g") | T("f", "v") | T("s", "z") | T("ʂ", "ʒ") | T("ɕ", "ʑ") | T("c", "ɟ") | T("C", "[dz]") | T("[tʃ]", "[dʒ]"))
+		devoiced_pairs = (T("b", "p") | T("d", "t") | T("g", "k") | T("v", "f") | T("z", "s") | T("ʒ", "ʃ") | T("ʑ","ɕ") | T("ɟ","c") | T("[dz]","C") | T("[dʒ]","[tʃ]"))
+		voiced_pairs = (T("p", "b") | T("t", "d") | T("k", "g") | T("f", "v") | T("s", "z") | T("ʃ", "ʒ") | T("ɕ", "ʑ") | T("c", "ɟ") | T("C", "[dz]") | T("[tʃ]", "[dʒ]"))
 		word_final_devoicing = pynini.cdrewrite(devoiced_pairs, sigmaStar, "[EOS]", sigmaStar).optimize()
 		regressive_voicing = pynini.cdrewrite(voiced_pairs, sigmaStar, voiced_cons, sigmaStar).optimize()
 		regressive_devoicing = pynini.cdrewrite(devoiced_pairs, sigmaStar, voiceless_cons, sigmaStar).optimize()
