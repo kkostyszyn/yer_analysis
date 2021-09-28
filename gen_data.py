@@ -91,7 +91,8 @@ def main():
 		
 	See if there is a way to generalize across resulting patterns.
 	"""
-	f = open("data/pol.txt", encoding="utf8")
+	#f = open("data/pol.txt", encoding="utf8")
+	f = open("check_output.txt", encoding="utf8")
 	f = f.readlines()
 
 	bundles = {}
@@ -100,7 +101,7 @@ def main():
 	for x in f:
 		temp = re.split(r"\s+", x)
 		tags = re.split(r";", temp[2])
-		if tags[0] == 'N':
+		if tags[0] == 'N' and temp[0].lower() == temp[0]: #remove proper nouns - Zydow, Amerikanami
 			if temp[0] not in bundles.keys():
 				bundles[temp[0]] = []
 			#Change this line when building for Paradigm object - revert to tuples
@@ -112,13 +113,19 @@ def main():
 				try:	
 					bundles[temp[0]].append((tr.t(temp[1]), temp[2]))
 				except:
+					#bundles[temp[0]].append(("ERROR: "  + temp[1], temp[2]))
 					print(temp[1])
 					
-	save_as_text("data/SAVE.txt", bundles)
+	#save_as_text("data/SAVE.txt", bundles)
 	#test_print(bundles)
+	
 	"""
 	for x in bundles.keys():
-		print(Paradigm(x, bundles[x]))"""
+		print(Paradigm(x, bundles[x]))
+	"""
+		
+"""
+	yer_found = {}
 		
 	#For every item in the bundles dictionary, compare the 'lemma' (minus final vowels) to each root and find yer environment 
 	for root in bundles.keys():
@@ -126,12 +133,16 @@ def main():
 		for pair in bundles[root]:
 			#First - decide how to treat unimorph vs wikipron data 
 			for ch_pos in domain(temp):
-				if vowel(temp[ch_pos]) != vowel(pair[0][ch_pos):
-					#if, for any consonant in one form, the corresponding character in the other form is a vowel (or vice versa) - log this as the prefix
+				if vowel(temp[ch_pos]) != vowel(pair[0][ch_pos]):
+					#if, for any consonant in one form, the corresponding character in the other form is a vowel (or vice versa) - log this as the prefix, marking a yer.
+					#ONLY look in the 'root'
 					if vowel(temp[ch_pos]):
-						#find prefix
-					elif vowel(pair[0][ch_pos): 
+						pre = prefix(temp, ch_pos)
+					else: 	
+						pre = prefix(pair[0], ch_pos)
+					yer_found[root] = pre 
 						#find prefix 
+"""
 ################################
 if __name__ == "__main__":
 	main()

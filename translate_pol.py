@@ -16,7 +16,7 @@ class Translate:
 		epsilon = pynini.epsilon_machine()
 
 		#DEFINE POLISH INVENTORY - INPUT VS. OUTPUT
-		vowels_in = (A("a") | A("ą") | A("e") | A("ę") | A("i") | A("o") |  A("ó") | A("u") | A("y"))
+		vowels_in = (A("a") | A("ą") | A("e") | A("ę") | A("i") | A("o") | A("ó") | A("u") | A("y"))
 		vowels_out =(A("a") | A("i") | A("ɔ") | A("u") | A("ɛ") | A("ɨ"))
 		
 		cons_in = (A("b") | 
@@ -72,10 +72,10 @@ class Translate:
 					A("ʑ") | #ź
 					A("ʒ")) #ż
 
-		helpers = (A("~") | A(" "))
+		helpers = (A("~") | A(" ") | A('ʲ'))
 		palatals = (A("ɕ") | A("ʑ") | A("ɲ") | A("kʲ") | A("ɟʲ") | A("mʲ"))
 
-		sigma_out = (vowels_out | cons_out)
+		sigma_out = (vowels_out | cons_out | helpers)
 		sigmaStar = pynini.closure(vowels_in | vowels_out | cons_in | cons_out | helpers | epsilon )
 
 		#FIX THIS
@@ -92,9 +92,11 @@ class Translate:
 		g_palatal = pynini.cdrewrite(T("gi", "ɟi"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		m_palatal = pynini.cdrewrite(T("mi", "mʲ"), sigmaStar, sigmaStar, sigmaStar).optimize()   
 		
+		
+		
 		pal_before_vowel = pynini.cdrewrite(T("e", " j ɛ") | T("a", " j a"), palatals, sigmaStar, sigmaStar).optimize()
 		  
-		self.palatalization = (pal_before_vowel @ s_palatal @ z_palatal @ n_palatal @ k_palatal @ g_palatal @ m_palatal).optimize()
+		self.palatalization = (s_palatal @ z_palatal @ n_palatal @ k_palatal @ g_palatal @ m_palatal).optimize()
 
 		#once palatalization is normalized, do 1-to-1 transductions for all other characters
 			
