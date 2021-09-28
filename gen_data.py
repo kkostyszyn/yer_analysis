@@ -37,6 +37,8 @@ def main():
 
 	Wikipron is being used to simplify the process, but only accounts for a fraction of the noted forms. 
 	"""
+	#the Translate class is a large transducer that carries out the translation from Polish to IPA 
+	tr = Translate()
 
 	wp = open("data/pol_latn_broad.tsv", "r", encoding="utf8")
 	wp = wp.readlines()
@@ -71,7 +73,7 @@ def main():
 			if temp[1] in pron_dict.keys():
 				bundles[temp[0]].append((pron_dict[temp[1]], temp[2]))
 			else:
-				bundles[temp[0]].append(("NO PRONUNCIATION: " + temp[1], temp[2]))
+				bundles[temp[0]].append((tr.t(temp[1]) + temp[1], temp[2]))
 					
 	#save_as_text("data/SAVE.txt", bundles)
 	test_print(bundles)
