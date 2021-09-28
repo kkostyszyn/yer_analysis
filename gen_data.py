@@ -18,18 +18,54 @@ def test_print(data):
     temp += 1
 
 def save_as_text(save, data):
-    f = open(save, "w", encoding="utf8")
-    
-    if isinstance(data, dict):
-        for x in data.keys():
-            f.write(x+":")
-            for text in data[x]:
-                f.write("\t" + text)
-            f.write("\n")
-    else: 
-        pass		
-    f.close()
+	"""
+	Shortcut to write data to a file for later analysis.
+	"""
+	f = open(save, "w", encoding="utf8")
+		
+	if isinstance(data, dict):
+		for x in data.keys():
+			f.write(x+":")
+			for text in data[x]:
+				f.write("\t" + text)
+				f.write("\n")
+	else: 
+		pass		
+	f.close()
+
+def root_without_final_vowels(txt: str) -> str:
+	"""
+	For any root, cut off any and all final vowels.
+	"""
+	vowels = ['a', 'i', 'u', 'e', 'o', 'y', 'ą', 'ę', 'ó', 'ɔ', 'ɛ', 'ɨ'] 
 	
+	#so long as the final character is a vowel, continue removing 
+	while txt[-1] in vowels:
+		txt = txt[:-1]
+	return txt 
+	
+def domain(lst):
+	"""
+	Shortcut for range(len()), so I don't forget to remove the final position :)
+	"""
+	return (range(len(lst) - 1))
+	
+def vowel(ch) -> bool:
+	"""
+	Determines if a character is a vowel or not.
+	"""
+	vowels = {'a':True, 'i':True, 'u':True, 'e':True, 'o':True, 'y':True, 'ą':True, 'ę':True, 'ó':True, 'ɔ':True, 'ɛ':True, 'ɨ':True}
+	 
+	if vowels[ch]:
+		return True
+	return False 
+
+def prefix(str, pos):
+	"""
+	Shortcut to return a substring, sliced up to an excluding a certain position.
+	"""
+	return str[:pos]
+
 def main():
 	"""
 	Based on previous Pynini script, do POL-->IPA transcription.
@@ -73,13 +109,29 @@ def main():
 			if temp[1] in pron_dict.keys():
 				bundles[temp[0]].append((pron_dict[temp[1]], temp[2]))
 			else:
-				bundles[temp[0]].append((tr.t(temp[1]) + temp[1], temp[2]))
+				try:	
+					bundles[temp[0]].append((tr.t(temp[1]), temp[2]))
+				except:
+					print(temp[1])
 					
-	#save_as_text("data/SAVE.txt", bundles)
-	test_print(bundles)
+	save_as_text("data/SAVE.txt", bundles)
+	#test_print(bundles)
 	"""
 	for x in bundles.keys():
 		print(Paradigm(x, bundles[x]))"""
+		
+	#For every item in the bundles dictionary, compare the 'lemma' (minus final vowels) to each root and find yer environment 
+	for root in bundles.keys():
+		temp = root_without_final_vowels(root)
+		for pair in bundles[root]:
+			#First - decide how to treat unimorph vs wikipron data 
+			for ch_pos in domain(temp):
+				if vowel(temp[ch_pos]) != vowel(pair[0][ch_pos):
+					#if, for any consonant in one form, the corresponding character in the other form is a vowel (or vice versa) - log this as the prefix
+					if vowel(temp[ch_pos]):
+						#find prefix
+					elif vowel(pair[0][ch_pos): 
+						#find prefix 
 ################################
 if __name__ == "__main__":
 	main()
