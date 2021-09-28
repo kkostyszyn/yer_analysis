@@ -27,7 +27,7 @@ def save_as_text(save, data):
 		for x in data.keys():
 			f.write(x+":")
 			for text in data[x]:
-				f.write("\t" + text)
+				f.write("\t" + str(text))
 				f.write("\n")
 	else: 
 		pass		
@@ -91,8 +91,7 @@ def main():
 		
 	See if there is a way to generalize across resulting patterns.
 	"""
-	#f = open("data/pol.txt", encoding="utf8")
-	f = open("check_output.txt", encoding="utf8")
+	f = open("data/pol.txt", encoding="utf8")
 	f = f.readlines()
 
 	bundles = {}
@@ -116,7 +115,7 @@ def main():
 					#bundles[temp[0]].append(("ERROR: "  + temp[1], temp[2]))
 					print(temp[1])
 					
-	#save_as_text("data/SAVE.txt", bundles)
+	save_as_text("data/SAVE.txt", bundles)
 	#test_print(bundles)
 	
 	"""

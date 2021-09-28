@@ -17,7 +17,7 @@ class Translate:
 
 		#DEFINE POLISH INVENTORY - INPUT VS. OUTPUT
 		vowels_in = (A("a") | A("ą") | A("e") | A("ę") | A("i") | A("o") | A("ó") | A("u") | A("y"))
-		vowels_out =(A("a") | A("i") | A("ɔ") | A("u") | A("ɛ") | A("ɨ"))
+		vowels_out =(A("a") | A("i") | A("ɔ") | A("u") | A("ɛ") | A("ɨ") | A("ɔ̃"))
 		
 		cons_in = (A("b") | 
 					A("c") | 
@@ -45,10 +45,11 @@ class Translate:
 		cons_out = (A("b") | 
 					A("[t͡s]") | #orthographic c
 					A("[t͡ʂ]") | #orthographic ć
+					A("[t͡ɕ]") | #palatalized
 					A("d") | 
 					A("[d͡z]") | #dz
 					A("[d͡ʑ]") | #palatal dz
-					A("[d͡ʒ]") | #dż
+					A("[d͡ʐ]") | #dż
 					A("f") |    
 					A("g") |    
 					A("ɟ") | #palatal g 
@@ -70,37 +71,36 @@ class Translate:
 					A("v") | #w  
 					A("z") |    
 					A("ʑ") | #ź
-					A("ʒ")) #ż
+					A("ʐ")) #ż
 
-		helpers = (A("~") | A(" ") | A('ʲ') | A("͡"))
-		palatals = (A("ɕ") | A("ʑ") | A("ɲ") | A("kʲ") | A("ɟʲ") | A("mʲ"))
+		helpers = (A("~") | A(" ") | A("ʲ") | A("͡"))
+		palatals = (A("ɕ") | A("ʑ") | A("ɲ") | A("ɟʲ"))
 
 		sigma_out = (vowels_out | cons_out | helpers)
 		sigmaStar = pynini.closure(vowels_in | vowels_out | cons_in | cons_out | helpers | epsilon )
 
-		#FIX THIS
-		# 1) For 'CiV' sequences, change to 'Cʲ j V' sequence 
-		# 2) All other instances (except the fricatives & nasal), rewrite 'Ci' as 'Cʲ'
-		#find all instances of palatalization		
-		s_pal = (T("si", "ɕi") | T("ś", "ɕ"))
+		"""
+		PALATALIZATION
+		"""
+		# 1) Insert ʲ to mark palatalization
+		add_pal = pynini.cdrewrite(T("", "ʲ"), cons_in | cons_out, A("i"), sigmaStar).optimize()
+		#2) For fricatives & /n/, rewrite sequence with new character
+		s_pal = (T("sʲi", "ɕi") | T("ś", "ɕ"))
 		s_palatal = pynini.cdrewrite(s_pal, sigmaStar, sigmaStar, sigmaStar).optimize()
-		z_pal = (T("zi", "ʑi") | T("ź", "ʑ"))
+		z_pal = (T("zʲi", "ʑi") | T("ź", "ʑ"))
 		z_palatal = pynini.cdrewrite(z_pal, sigmaStar, sigmaStar, sigmaStar).optimize()
-		n_pal = (T("ni", "ɲi") | T("ń", "ɲ"))
+		n_pal = (T("nʲi", "ɲi") | T("ń", "ɲ"))
 		n_palatal = pynini.cdrewrite(n_pal, sigmaStar, sigmaStar, sigmaStar).optimize()
-		#k_palatal = pynini.cdrewrite(T("ki", "k"), sigmaStar, sigmaStar, sigmaStar).optimize()
-		#g_palatal = pynini.cdrewrite(T("gi", "ɟ"), sigmaStar, sigmaStar, sigmaStar).optimize()
-		#m_palatal = pynini.cdrewrite(T("mi", "m"), sigmaStar, sigmaStar, sigmaStar).optimize()   
-		
-		pal_before_vowel = pynini.cdrewrite(T("e", " j ɛ") | T("a", " j a"), palatals, sigmaStar, sigmaStar).optimize()
-		#Change so that it only affects sequences that have 'i', 
+		#3) figure out how to rewrite JiV sequences as JjV
+		#STILL PROBLEMATIC
+		pal_before_vowel = pynini.cdrewrite(T("i", "j"), "ʲ", vowels_in | vowels_out | "[EOS]", sigmaStar).optimize()
 		  
-		self.palatalization = (s_palatal @ z_palatal @ n_palatal).optimize()
+		self.palatalization = (add_pal @ pal_before_vowel @ s_palatal @ z_palatal @ n_palatal ).optimize()
 
-		#once palatalization is normalized, do 1-to-1 transductions for all other characters
-			
-		#other multi-character tranductions
-		#dz combined into the z palatalization 
+					
+		"""
+		MULTI-CHARACTER
+		"""		
 		#sz
 		sz = pynini.cdrewrite(T("sz", "ʂ"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		#ch    
@@ -112,7 +112,12 @@ class Translate:
 			
 		self.multi_char = (sz @ ch @ cz @ rz).optimize()
 
-		#Add rule for word-final devoicing
+
+		
+		"""
+		VOICING ASSIMILATION
+		"""
+		#make sure the right consonants are where theyre supposed to be 
 		voiced_cons = (A("b") | 
 					A("d") | 
 					A("[d͡z]") | #dz
@@ -143,34 +148,40 @@ class Translate:
 					A("ʂ") | #ś    
 					A("ɕ") | #palatal s
 					A("t"))
-		devoiced_pairs = (T("b", "p") | T("d", "t") | T("g", "k") | T("v", "f") | T("z", "s") | T("ʒ", "ʂ") | T("ʑ","ɕ") | T("ɟ","c") | T("[dz]","C") | T("[dʒ]","[tʃ]"))
-		voiced_pairs = (T("p", "b") | T("t", "d") | T("k", "g") | T("f", "v") | T("s", "z") | T("ʂ", "ʒ") | T("ɕ", "ʑ") | T("c", "ɟ") | T("C", "[dz]") | T("[tʃ]", "[dʒ]"))
+		devoiced_pairs = (T("b", "p") | T("d", "t") | T("g", "k") | T("v", "f") | T("z", "s") | T("ʒ", "ʂ") | T("ʑ","ɕ") | T("ɟ","kʲ") | T("[dz]","C") | T("[dʒ]","[tʃ]"))
+		voiced_pairs = (T("p", "b") | T("t", "d") | T("k", "g") | T("f", "v") | T("s", "z") | T("ʂ", "ʒ") | T("ɕ", "ʑ") | T("kʲ", "ɟ") | T("C", "[dz]") | T("[tʃ]", "[dʒ]"))
 		word_final_devoicing = pynini.cdrewrite(devoiced_pairs, sigmaStar, "[EOS]", sigmaStar).optimize()
 		regressive_voicing = pynini.cdrewrite(voiced_pairs, sigmaStar, voiced_cons, sigmaStar).optimize()
 		regressive_devoicing = pynini.cdrewrite(devoiced_pairs, sigmaStar, voiceless_cons, sigmaStar).optimize()
 		self.voicing = (word_final_devoicing @ regressive_devoicing @ regressive_voicing).optimize()
-			
-		#single characters
+					
+		"""
+		SINGLE CHARACTERS
+		"""		
 		#w->v
 		w = pynini.cdrewrite(T("w", "v"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		#c->ts
-		c = pynini.cdrewrite(T("c", "t͡s"), sigmaStar, sigmaStar, sigmaStar).optimize()
-		tc = pynini.cdrewrite(T("ć", "t͡ɕ"), sigmaStar, sigmaStar, sigmaStar).optimize()
+		c = pynini.cdrewrite(T("c", "[t͡s]"), sigmaStar, sigmaStar, sigmaStar).optimize()
+		tc = pynini.cdrewrite(T("ć", "[t͡ʂ]"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		#h->x
 		h = pynini.cdrewrite(T("h", "x"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		#l->w
 		barred_L = pynini.cdrewrite(T("ł", "w"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		
 		#Update vowels
-		#		vowels_in = (A("a") | A("ą") | A("e") | A("ę") | A("i") | A("o") |  A("ó") | A("u") | A("y"))
-		nasals = pynini.cdrewrite(T("ą", "a~") | T("ę", "ɛ~"), sigmaStar, sigmaStar, sigmaStar).optimize()
+		nasals = pynini.cdrewrite(T("ą", "ɔ̃") | T("ę", "ɛ~"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		other_vowels = pynini.cdrewrite(T("e", "ɛ") | T("o", "ɔ") | T("ó", "u") | T("y", "ɨ"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		
-		#One more rule for regressive voice assimilation 
-			
 		self.sing_char = (w @ c @ tc @ h @ barred_L @ nasals @ other_vowels).optimize()
+		
+		
+		#add spacings a la wikipron 
+		add_spaces = pynini.cdrewrite(T("", " "), sigmaStar - A(" "), sigmaStar - A(" "), sigmaStar).optimize()
+		#after spaces, change affricates back to normal unicode
+		symbol_changes = (T("[d͡z]","d͡z") | T("[d͡ʑ]", "d͡ʑ") | T("[t͡s]", "t͡s") | T("[t͡ʂ]", "t͡ʂ") | T("[t͡ɕ]", "t͡ɕ") | T("[d͡ʐ]", "d͡ʐ"))
+		symbols = pynini.cdrewrite(symbol_changes, sigmaStar, sigmaStar, sigmaStar)
 			
 #to determine the transcription of a single word, barring vowels    
 	def t(self, line:str) -> str:
 		A = functools.partial(pynini.acceptor, token_type="utf8")
-		return (((A(line) @ self.palatalization @ self.multi_char @ self.sing_char).optimize()).stringify(token_type="utf8"))
+		return (((A(line) @ self.palatalization @ self.voicing @ self.multi_char @ self.sing_char).optimize()).stringify(token_type="utf8"))
