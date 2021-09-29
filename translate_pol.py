@@ -73,12 +73,11 @@ class Translate:
 					A("ʑ") | #ź
 					A("ʐ")) #ż
 
-		helpers = (A("~") | A(" ") | A("ʲ") | A("͡"))
+		helpers = (A("~") | A("ʲ") | A("͡"))
 		palatals = (A("ɕ") | A("ʑ") | A("ɲ") | A("ɟʲ"))
 
-		sigma_out = (vowels_out | cons_out | helpers)
-		sigmaStar = pynini.closure(vowels_in | vowels_out | cons_in | cons_out | helpers | epsilon )
-
+		sigma_without_space = pynini.closure(vowels_in | vowels_out | cons_in | cons_out | helpers | epsilon )
+		sigmaStar = pynini.closure(sigma_without_space | A(" ") | A(""))
 		"""
 		PALATALIZATION
 		"""
@@ -91,11 +90,13 @@ class Translate:
 		z_palatal = pynini.cdrewrite(z_pal, sigmaStar, sigmaStar, sigmaStar).optimize()
 		n_pal = (T("nʲi", "ɲi") | T("ń", "ɲ"))
 		n_palatal = pynini.cdrewrite(n_pal, sigmaStar, sigmaStar, sigmaStar).optimize()
+		aff_pal = (T("[t͡s]ʲi", "[t͡ɕ]") | T("[d͡z]ʲi", "[d͡ʑ]"))
+		aff_palatal = pynini.cdrewrite(aff_pal, sigmaStar, sigmaStar, sigmaStar).optimize()
 		#3) figure out how to rewrite JiV sequences as JjV
 		#STILL PROBLEMATIC
 		pal_before_vowel = pynini.cdrewrite(T("i", "j"), "ʲ", vowels_in | vowels_out | "[EOS]", sigmaStar).optimize()
 		  
-		self.palatalization = (add_pal @ pal_before_vowel @ s_palatal @ z_palatal @ n_palatal ).optimize()
+		self.palatalization = (add_pal @ pal_before_vowel @ s_palatal @ z_palatal @ n_palatal @ aff_palatal).optimize()
 
 					
 		"""
@@ -122,7 +123,7 @@ class Translate:
 					A("d") | 
 					A("[d͡z]") | #dz
 					A("[d͡ʑ]") | #palatal dz
-					A("[d͡ʒ]") | #dż
+					A("[d͡ʐ]") | #dż
 					A("g") |    
 					A("ɟ") | #palatal g 
 					A("x") | #h
@@ -131,25 +132,26 @@ class Translate:
 					A("w") | #ł
 					A("m") |    
 					A("n") |    
-					A("ɲ") | #ń 
-					A("r") |      
+					A("ɲ") | #ń      
 					A("v") | #w  
 					A("z") |    
 					A("ʑ") | #ź
 					A("ʒ")) #ż)
 		voiceless_cons = (A("[t͡s]") |
+					A("[t͡ɕ]") |
 					A("[t͡ʂ]") | #orthographic ć
 					A("f") |    
 					A("x") | #h
 					A("k") | 
 					A("c") | #palatal k   
-					A("p") |       
+					A("p") |    
+					A("r") | 					
 					A("s") |    
 					A("ʂ") | #ś    
 					A("ɕ") | #palatal s
 					A("t"))
-		devoiced_pairs = (T("b", "p") | T("d", "t") | T("g", "k") | T("v", "f") | T("z", "s") | T("ʒ", "ʂ") | T("ʑ","ɕ") | T("ɟ","kʲ") | T("[dz]","C") | T("[dʒ]","[tʃ]"))
-		voiced_pairs = (T("p", "b") | T("t", "d") | T("k", "g") | T("f", "v") | T("s", "z") | T("ʂ", "ʒ") | T("ɕ", "ʑ") | T("kʲ", "ɟ") | T("C", "[dz]") | T("[tʃ]", "[dʒ]"))
+		devoiced_pairs = (T("b", "p") | T("d", "t") | T("g", "k") | T("v", "f") | T("z", "s") | T("ʑ", "ʂ") | T("ʑ","ɕ") | T("ɟ","kʲ") | T("[d͡z]","[t͡s]") | T("[d͡ʐ]","[t͡ʂ]"))
+		voiced_pairs = (T("p", "b") | T("t", "d") | T("k", "g") | T("f", "v") | T("s", "z") | T("ʂ", "ʑ") | T("ɕ", "ʑ") | T("kʲ", "ɟ") | T("[t͡s]", "[d͡z]") | T("[t͡ʂ]", "[d͡ʐ]"))
 		word_final_devoicing = pynini.cdrewrite(devoiced_pairs, sigmaStar, "[EOS]", sigmaStar).optimize()
 		regressive_voicing = pynini.cdrewrite(voiced_pairs, sigmaStar, voiced_cons, sigmaStar).optimize()
 		regressive_devoicing = pynini.cdrewrite(devoiced_pairs, sigmaStar, voiceless_cons, sigmaStar).optimize()
@@ -174,14 +176,15 @@ class Translate:
 		
 		self.sing_char = (w @ c @ tc @ h @ barred_L @ nasals @ other_vowels).optimize()
 		
-		
+
 		#add spacings a la wikipron 
-		add_spaces = pynini.cdrewrite(T("", " "), sigmaStar - A(" "), sigmaStar - A(" "), sigmaStar).optimize()
+		self.add_spaces = pynini.cdrewrite(T("", " "), cons_out | vowels_out | A("ʲ"), cons_out | vowels_out, sigmaStar).optimize()
+
 		#after spaces, change affricates back to normal unicode
 		symbol_changes = (T("[d͡z]","d͡z") | T("[d͡ʑ]", "d͡ʑ") | T("[t͡s]", "t͡s") | T("[t͡ʂ]", "t͡ʂ") | T("[t͡ɕ]", "t͡ɕ") | T("[d͡ʐ]", "d͡ʐ"))
-		symbols = pynini.cdrewrite(symbol_changes, sigmaStar, sigmaStar, sigmaStar)
+		self.symbols = pynini.cdrewrite(symbol_changes, sigmaStar, sigmaStar, sigmaStar)
 			
 #to determine the transcription of a single word, barring vowels    
 	def t(self, line:str) -> str:
 		A = functools.partial(pynini.acceptor, token_type="utf8")
-		return (((A(line) @ self.palatalization @ self.voicing @ self.multi_char @ self.sing_char).optimize()).stringify(token_type="utf8"))
+		return (((A(line) @ self.palatalization @ self.multi_char @ self.voicing @ self.sing_char @ self.add_spaces @ self.symbols).optimize()).stringify(token_type="utf8"))

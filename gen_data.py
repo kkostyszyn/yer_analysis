@@ -105,15 +105,21 @@ def main():
 				bundles[temp[0]] = []
 			#Change this line when building for Paradigm object - revert to tuples
 			#temp[1] is the inflected form, temp[2] is the inflectional information
-			#bundles[temp[0]].append(temp[1] + "//" + temp[2]) #for save_as_text
+			
+			
 			if temp[1] in pron_dict.keys():
+				try:
+					test = tr.t(temp[1])
+					if test != pron_dict[temp[1]]:
+						print(temp[1], "\n\t" + pron_dict[temp[1]], "\n\t"+ test)
+				except:
+					print("Failed: ", temp[1])
 				bundles[temp[0]].append((pron_dict[temp[1]], temp[2]))
 			else:
 				try:	
 					bundles[temp[0]].append((tr.t(temp[1]), temp[2]))
 				except:
-					#bundles[temp[0]].append(("ERROR: "  + temp[1], temp[2]))
-					print(temp[1])
+					pass
 					
 	save_as_text("data/SAVE.txt", bundles)
 	#test_print(bundles)
