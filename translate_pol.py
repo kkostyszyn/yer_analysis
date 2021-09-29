@@ -90,13 +90,14 @@ class Translate:
 		z_palatal = pynini.cdrewrite(z_pal, sigmaStar, sigmaStar, sigmaStar).optimize()
 		n_pal = (T("nʲi", "ɲi") | T("ń", "ɲ"))
 		n_palatal = pynini.cdrewrite(n_pal, sigmaStar, sigmaStar, sigmaStar).optimize()
-		aff_pal = (T("[t͡s]ʲi", "[t͡ɕ]") | T("[d͡z]ʲi", "[d͡ʑ]"))
+		aff_pal = (T("[t͡s]ʲi", "[t͡ɕ]i") | T("[d͡z]ʲi", "[d͡ʑ]i"))
 		aff_palatal = pynini.cdrewrite(aff_pal, sigmaStar, sigmaStar, sigmaStar).optimize()
+		redundant = pynini.cdrewrite(T("jʲ", "j"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		#3) figure out how to rewrite JiV sequences as JjV
 		#STILL PROBLEMATIC
-		pal_before_vowel = pynini.cdrewrite(T("i", "j"), "ʲ", vowels_in | vowels_out | "[EOS]", sigmaStar).optimize()
+		pal_before_vowel = pynini.cdrewrite(T("i", ""), "ʲ", vowels_in | vowels_out | "[EOS]", sigmaStar).optimize()
 		  
-		self.palatalization = (add_pal @ pal_before_vowel @ s_palatal @ z_palatal @ n_palatal @ aff_palatal).optimize()
+		self.palatalization = (add_pal @ pal_before_vowel @ s_palatal @ z_palatal @ n_palatal @ aff_palatal @ redundant).optimize()
 
 					
 		"""
@@ -136,7 +137,7 @@ class Translate:
 					A("v") | #w  
 					A("z") |    
 					A("ʑ") | #ź
-					A("ʒ")) #ż)
+					A("ʐ")) #ż)
 		voiceless_cons = (A("[t͡s]") |
 					A("[t͡ɕ]") |
 					A("[t͡ʂ]") | #orthographic ć
@@ -150,8 +151,8 @@ class Translate:
 					A("ʂ") | #ś    
 					A("ɕ") | #palatal s
 					A("t"))
-		devoiced_pairs = (T("b", "p") | T("d", "t") | T("g", "k") | T("v", "f") | T("z", "s") | T("ʑ", "ʂ") | T("ʑ","ɕ") | T("ɟ","kʲ") | T("[d͡z]","[t͡s]") | T("[d͡ʐ]","[t͡ʂ]"))
-		voiced_pairs = (T("p", "b") | T("t", "d") | T("k", "g") | T("f", "v") | T("s", "z") | T("ʂ", "ʑ") | T("ɕ", "ʑ") | T("kʲ", "ɟ") | T("[t͡s]", "[d͡z]") | T("[t͡ʂ]", "[d͡ʐ]"))
+		devoiced_pairs = (T("b", "p") | T("d", "t") | T("g", "k") | T("v", "f") | T("z", "s") | T("ʐ", "ʂ") | T("ʑ","ɕ") | T("[d͡z]","[t͡s]") | T("[d͡ʐ]","[t͡ʂ]"))
+		voiced_pairs = (T("p", "b") | T("t", "d") | T("k", "g") | T("f", "v") | T("s", "z") | T("ʂ", "ʐ") | T("ɕ", "ʑ") | T("[t͡s]", "[d͡z]") | T("[t͡ʂ]", "[d͡ʐ]"))
 		word_final_devoicing = pynini.cdrewrite(devoiced_pairs, sigmaStar, "[EOS]", sigmaStar).optimize()
 		regressive_voicing = pynini.cdrewrite(voiced_pairs, sigmaStar, voiced_cons, sigmaStar).optimize()
 		regressive_devoicing = pynini.cdrewrite(devoiced_pairs, sigmaStar, voiceless_cons, sigmaStar).optimize()
