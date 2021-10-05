@@ -17,7 +17,7 @@ class Translate:
 
 		#DEFINE POLISH INVENTORY - INPUT VS. OUTPUT
 		vowels_in = (A("a") | A("ą") | A("e") | A("ę") | A("i") | A("o") | A("ó") | A("u") | A("y"))
-		vowels_out =(A("a") | A("i") | A("ɔ") | A("u") | A("ɛ") | A("ɨ") | A("ɔ̃"))
+		vowels_out =(A("a") | A("i") | A("ɔ") | A("u") | A("ɛ") | A("ɨ") | A("ɔ̃") | A("ɛ̃"))
 		
 		cons_in = (A("b") | 
 					A("c") | 
@@ -172,7 +172,7 @@ class Translate:
 		barred_L = pynini.cdrewrite(T("ł", "w"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		
 		#Update vowels
-		nasals = pynini.cdrewrite(T("ą", "ɔ̃") | T("ę", "ɛ~"), sigmaStar, sigmaStar, sigmaStar).optimize()
+		nasals = pynini.cdrewrite(T("ą", "ɔ̃") | T("ę", "ɛ̃"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		other_vowels = pynini.cdrewrite(T("e", "ɛ") | T("o", "ɔ") | T("ó", "u") | T("y", "ɨ"), sigmaStar, sigmaStar, sigmaStar).optimize()
 		
 		self.sing_char = (w @ c @ tc @ h @ barred_L @ nasals @ other_vowels).optimize()
