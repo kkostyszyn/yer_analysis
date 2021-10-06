@@ -55,7 +55,7 @@ def vowel(ch) -> bool:
 	"""
 	Determines if a character is a vowel or not.
 	"""
-	vowels = ["a", "i", "ɔ", "u", "ɛ", "ɨ", "ɔ̃", "ɛ~"]
+	vowels = ["a", "i", "ɔ", "u", "ɛ", "ɨ", "ɔ̃", "ɛ̃"]
 	 
 	if ch in vowels:
 		return True
