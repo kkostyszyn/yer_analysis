@@ -168,9 +168,15 @@ def main(load = False):
 	for x in bundles.keys():
 		print(Paradigm(x, bundles[x]))
 	"""
+
+	#These are exceptional forms, with significantly different forms (czlowiek~ludzi, tydzien~tygodniu).
+	#In the future, have the user upload a list of exceptions to pop from the bundles.
+	try:
+		bundles.pop('tydzień')
+		bundles.pop('człowiek')
 		
 	yer_found = {}
-		
+
 	#For every item in the bundles dictionary, compare the 'lemma' (minus final vowels) to each root and find yer environment 
 	for root in bundles.keys():
 		try:
