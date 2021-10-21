@@ -46,8 +46,6 @@ bimber:	bʲ
 	i
 	m
 	b
-błąd:	b
-	w
 bochen:	b
 	ɔ
 	x
@@ -137,10 +135,6 @@ czek:	t͡ʂ
 czepek:	t͡ʂ
 	ɛ
 	p
-człowiek:	t͡ʂ
-	w
-	ɔ
-	vʲ
 czopek:	t͡ʂ
 	ɔ
 	p
@@ -159,7 +153,6 @@ czwartek:	d͡ʐ
 	a
 	r
 	t
-dąb:	d
 daktylowiec:	d
 	a
 	k
@@ -257,9 +250,6 @@ fistaszek:	fʲ
 	t
 	a
 	ʂ
-gałąź:	g
-	a
-	w
 ganek:	g
 	a
 	n
@@ -312,14 +302,6 @@ jarząbek:	j
 	ʐ
 	ɔ̃
 	b
-jarząb:	j
-	a
-	ʐ
-jastrząb:	j
-	a
-	s
-	d
-	ʐ
 języczek:	j
 	ɛ̃
 	z
@@ -380,8 +362,6 @@ kierunek:	kʲ
 kitel:	kʲ
 	i
 	t
-kłąb:	k
-	w
 kłębek:	k
 	w
 	ɛ̃
@@ -459,8 +439,6 @@ kozłek:	k
 	ɔ
 	z
 	w
-krąg:	k
-	r
 kręgiel:	k
 	r
 	ɛ̃
@@ -470,12 +448,6 @@ kruczek:	k
 	r
 	u
 	t͡ʂ
-ksiądz:	k
-	ɕ
-	i
-książę:	k
-	ɕ
-	i
 kubek:	k
 	u
 	b
@@ -519,9 +491,6 @@ kwiecień:	g
 	i
 	ɛ
 	t͡sʲ
-łabądź:	w
-	a
-	b
 ładunek:	w
 	a
 	d
@@ -578,15 +547,9 @@ marszałek:	m
 	ʂ
 	a
 	w
-mąż:	m
 mebel:	m
 	ɛ
 	b
-miesiąc:	mʲ
-	i
-	ɛ
-	ɕ
-	i
 mięsień:	mʲ
 	i
 	ɛ̃
@@ -762,9 +725,6 @@ ogórek:	ɔ
 	g
 	u
 	r
-okrąg:	ɔ
-	k
-	r
 ołówek:	ɔ
 	w
 	u
@@ -813,11 +773,6 @@ piątek:	pʲ
 	i
 	ɔ̃
 	t
-pieniądz:	pʲ
-	i
-	ɛ
-	ɲ
-	i
 pień:	pʲ
 pierścionek:	pʲ
 	i
@@ -1180,10 +1135,6 @@ rzodkiew:	ʐ
 	ɔ
 	t
 	kʲ
-sąsiad:	s
-	ɔ̃
-	ɕ
-	i
 schowek:	z
 	x
 	ɔ
@@ -1324,9 +1275,6 @@ szacunek:	ʂ
 	t͡s
 	u
 	n
-szaleństwo:	ʂ
-	a
-	l
 szczygieł:	ʂ
 	t͡ʂ
 	ɨ
@@ -1393,11 +1341,6 @@ truteń:	t
 	r
 	u
 	t
-tydzień:	t
-	ɨ
-	d
-	ʑ
-	i
 tyłek:	t
 	ɨ
 	w
@@ -1417,11 +1360,6 @@ upadek:	u
 	p
 	a
 	d
-uprząż:	u
-	b
-	ʐ
-urząd:	u
-	ʐ
 uśmieszek:	u
 	ʑ
 	mʲ
@@ -1442,7 +1380,6 @@ warunek:	v
 wątek:	v
 	ɔ̃
 	t
-wąż:	v
 węgiel:	v
 	ɛ̃
 	gʲ
@@ -1470,13 +1407,6 @@ wiaterek:	vʲ
 wicher:	vʲ
 	i
 	x
-widnokrąg:	vʲ
-	i
-	d
-	n
-	ɔ
-	k
-	r
 wielokropek:	vʲ
 	i
 	ɛ
@@ -1569,7 +1499,6 @@ wysiłek:	v
 wyżeł:	v
 	ɨ
 	ʐ
-ząb:	z
 żagiel:	ʐ
 	a
 	gʲ
@@ -1577,9 +1506,6 @@ zaimek:	z
 	a
 	i
 	m
-zając:	z
-	a
-	j
 zajączek:	z
 	a
 	j
