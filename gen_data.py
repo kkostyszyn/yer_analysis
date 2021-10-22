@@ -8,6 +8,63 @@ import sys
 from paradigm import Paradigm, Features
 from translate_pol import Translate
 
+<<<<<<< HEAD
+=======
+def statistics(d):
+	"""
+	Takes the yer-found dictionary and uses the prefix to save the environment before and after for stats.
+	"""
+	env_before = {}
+	env_after = {}
+	count = 0
+	for i in d.keys():
+		#Remember that the items in d[i] are lists, not strings.
+		count += 1
+		
+		#Find environment BEFORE yer 
+		#change to using 'consonant_seq' function 
+		b = consonant_seq_before(d[i])
+		#print("before:", b)
+		
+		#Find environment AFTER yer 
+		e = consonant_seq_after(d[i])
+		#print("after:", e)
+		
+		#Add to env dictionaries 
+		try:
+			env_before[b] += 1
+		except:
+			env_before[b] = 1
+			
+		try:
+			env_after[e] += 1
+		except:
+			env_after[e] = 1
+			
+	return (env_before, env_after, count)
+	
+def remove_items(d, suffix, after = False) -> dict:
+	d_copy = {}
+	for i in d:
+		if after and suffix in i:
+			#allow for consonants (but not vowels) to follow the suffix to be removed
+			temp = i.split(suffix)
+			to_pop = False 
+			
+			for letter in temp[-1]:
+				if vowel(letter):
+					to_pop = True
+					
+			if not to_pop:
+				d_copy[i] = d[i]
+		else:
+			#suffix has to be at end of word 
+			if (suffix not in i) or (suffix in i and i.endswith(suffix) and re.sub(suffix, r"", i) not in d.keys()):
+				d_copy[i] = d[i]
+		
+	return d_copy
+
+>>>>>>> Fixing statistics
 def test_print(data):
     """
     Purely for testing purposes.
@@ -27,9 +84,12 @@ def save_as_text(save, data):
 	if isinstance(data, dict):
 		for x in data.keys():
 			f.write(x+":")
-			for text in data[x]:
-				f.write("\t" + str(text))
-				f.write("\n")
+			if isinstance(data[x], int):
+				f.write(str(data[x]) + "\n")
+			else:
+				for text in data[x]:
+					f.write("\t" + str(text))
+					f.write("\n")
 	else: 
 		pass		
 	f.close()
@@ -61,6 +121,42 @@ def vowel(ch) -> bool:
 		return True
 	return False 
 
+def consonant_seq_before(txt) -> str:
+	"""
+	Given some string, finds all consonants at the end of the string (until interrupted by vowel).
+	Assumes that the string is the prefix for a yer.
+	"""
+	if len(txt) == 1:
+		if vowel(txt):
+			return ""
+		return txt
+	if vowel(txt[-1]):
+		return ""
+	else:
+		try:
+			return consonant_seq_before(txt[:-1]) + txt[-1]
+		except: 
+			print(consonant_seq_before(txt[:-1]), txt[-1])
+			return ""
+		
+def consonant_seq_after(txt) -> str:
+	"""
+	Given some string, finds all consonants at beginning of a string (until interrupted by vowel).
+	Assumes that the string is a suffix for a year.
+	"""
+	if len(txt) == 1:
+		if vowel(txt):
+			return ""
+		return txt
+	if vowel(txt[0]):
+		return ""
+	else:
+		try:
+			return txt[0] + consonant_seq_after(txt[1:]) 
+		except:
+			print(txt[0], consonant_seq_after(txt[1:]))
+			return ""
+			
 def prefix(str, pos):
 	"""
 	Shortcut to return a substring, sliced up to an excluding a certain position.
@@ -199,6 +295,34 @@ def main(load = False):
 			print(root)
 						
 	save_as_text("data/lemmas.txt", yer_found)
+<<<<<<< HEAD
+=======
+	before, after, count = statistics(yer_found)
+	#save_as_text("data/stats_with_ek_before.txt", before)
+	#save_as_text("data/stats_with_ek_after.txt", after)
+	print("BEFORE:")
+	print(before)
+	print("AFTER:")
+	print(after)
+	print(count)
+	
+	#yer_found = remove_items(yer_found, "eczek")
+	yer_found = remove_items(yer_found, "ek")
+	save_as_text("data/lemmas_minus_ek.txt", yer_found)
+	before, after, count  = statistics(yer_found)
+	#save_as_text("data/stats_without_ek_before.txt", before)
+	#save_as_text("data/stats_without_ek_after.txt", after)
+	print("BEFORE:")
+	print(before)
+	print("AFTER:")
+	print(after)
+	print(count)
+	
+	
+	#get stats
+	#remove 'ek'
+	#repeat
+>>>>>>> Fixing statistics
 
 ################################
 if __name__ == "__main__":

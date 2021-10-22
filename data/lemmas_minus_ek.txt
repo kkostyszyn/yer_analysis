@@ -5,10 +5,40 @@ alabaster:	a
 	a
 	s
 	t
+aniołek:	a
+	ɲ
+	i
+	ɔ
+	w
+asenterunek:	a
+	s
+	ɛ
+	n
+	t
+	ɛ
+	r
+	u
+	n
+bąbelek:	b
+	ɔ̃
+	b
+	ɛ
+	l
 bajgiel:	b
 	a
 	j
 	gʲ
+baranek:	b
+	a
+	r
+	a
+	n
+barwinek:	b
+	a
+	r
+	vʲ
+	i
+	n
 bęben:	b
 	ɛ̃
 	b
@@ -19,12 +49,31 @@ bimber:	bʲ
 bochen:	b
 	ɔ
 	x
+bratanek:	p
+	r
+	a
+	t
+	a
+	n
+bratek:	p
+	r
+	a
+	t
 brew:	p
 	r
 brukiew:	p
 	r
 	u
 	kʲ
+brzuszek:	b
+	ʐ
+	u
+	ʂ
+budynek:	b
+	u
+	d
+	ɨ
+	n
 ceber:	t͡s
 	ɛ
 	b
@@ -32,6 +81,10 @@ cerkiew:	t͡s
 	ɛ
 	r
 	kʲ
+chlorek:	x
+	l
+	ɔ
+	r
 chorągiew:	x
 	ɔ
 	r
@@ -44,6 +97,22 @@ cugiel:	t͡s
 cukier:	t͡s
 	u
 	kʲ
+cukiereczek:	t͡s
+	u
+	kʲ
+	i
+	ɛ
+	r
+	ɛ
+	t͡ʂ
+cycek:	t͡s
+	ɨ
+	t͡s
+cycuszek:	t͡s
+	ɨ
+	t͡s
+	u
+	ʂ
 cynober:	t͡s
 	ɨ
 	n
@@ -56,6 +125,28 @@ cyrkiel:	t͡s
 cząber:	t͡ʂ
 	ɔ̃
 	b
+czek:	t͡ʂ
+czepek:	t͡ʂ
+	ɛ
+	p
+czopek:	t͡ʂ
+	ɔ
+	p
+czosnaczek:	t͡ʂ
+	ɔ
+	z
+	n
+	a
+	t͡ʂ
+czosnek:	t͡ʂ
+	ɔ
+	z
+	n
+czwartek:	d͡ʐ
+	v
+	a
+	r
+	t
 daktylowiec:	d
 	a
 	k
@@ -65,51 +156,207 @@ daktylowiec:	d
 	ɔ
 	vʲ
 	i
-dekiel:	d
+daszek:	d
+	a
+	ʂ
+dekielek:	d
 	ɛ
 	kʲ
+	i
+	ɛ
+	l
 deżdż:	d
 diabeł:	dʲ
 	i
 	a
 	b
+dodatek:	d
+	ɔ
+	d
+	a
+	t
+domek:	d
+	ɔ
+	m
+dudek:	d
+	u
+	d
+dupek:	d
+	u
+	p
+dwukropek:	d
+	v
+	u
+	k
+	r
+	ɔ
+	p
+dwutlenek:	d
+	v
+	u
+	d
+	l
+	ɛ
+	n
 dyszel:	d
 	ɨ
 	ʂ
+dziadek:	d
+	ʑ
+	i
+	a
+	d
+dzióbek:	d
+	ʑ
+	i
+	u
+	b
+dzwonek:	d
+	z
+	v
+	ɔ
+	n
 ester:	ɛ
 	s
 	t
+fajek:	f
+	a
+	j
 farfocel:	f
 	a
 	r
 	f
 	ɔ
 	t͡s
+fenek:	f
+	ɛ
+	n
+fiołek:	fʲ
+	i
+	ɔ
+	w
+fistaszek:	fʲ
+	i
+	s
+	t
+	a
+	ʂ
+ganek:	g
+	a
+	n
+garnek:	g
+	a
+	r
+	n
+garnuszek:	g
+	a
+	r
+	n
+	u
+	ʂ
+gąsiorek:	g
+	ɔ̃
+	ɕ
+	i
+	ɔ
+	r
+gatunek:	g
+	a
+	t
+	u
+	n
 giez:	gʲ
+gołąbek:	g
+	ɔ
+	w
+	ɔ̃
+	b
+grzybek:	g
+	ʐ
+	ɨ
+	b
+guziczek:	g
+	u
+	ʑ
+	i
+	t͡ʂ
+gwizdek:	g
+	vʲ
+	i
+	z
+	d
 hebel:	x
 	ɛ
 	b
+jarząbek:	j
+	a
+	ʐ
+	ɔ̃
+	b
+języczek:	j
+	ɛ̃
+	z
+	ɨ
+	t͡ʂ
+kabaczek:	k
+	a
+	b
+	a
+	t͡ʂ
 kabel:	k
 	a
 	b
+kanarek:	k
+	a
+	n
+	a
+	r
 kapitel:	k
 	a
 	pʲ
 	i
 	t
+karabinek:	k
+	a
+	r
+	a
+	bʲ
+	i
+	n
 kartofel:	k
 	a
 	r
 	t
 	ɔ
 	f
+kawałek:	k
+	a
+	v
+	a
+	w
 kibel:	kʲ
 	i
 	b
+kieliszek:	kʲ
+	i
+	ɛ
+	lʲ
+	i
+	ʂ
 kieł:	kʲ
+kierunek:	kʲ
+	i
+	ɛ
+	r
+	u
+	n
 kitel:	kʲ
 	i
 	t
+kłębek:	k
+	w
+	ɛ̃
+	b
 kliper:	g
 	lʲ
 	i
@@ -118,6 +365,11 @@ knebel:	g
 	n
 	ɛ
 	b
+kochanek:	k
+	ɔ
+	x
+	a
+	n
 kocioł:	k
 	ɔ
 	t͡sʲ
@@ -126,14 +378,64 @@ koliber:	k
 	lʲ
 	i
 	b
+kołowrotek:	k
+	ɔ
+	w
+	ɔ
+	v
+	r
+	ɔ
+	t
+kominek:	k
+	ɔ
+	mʲ
+	i
+	n
+komputerek:	k
+	ɔ
+	m
+	p
+	u
+	t
+	ɛ
+	r
+kopciuszek:	k
+	ɔ
+	p
+	t͡sʲ
+	i
+	u
+	ʂ
 koper:	k
 	ɔ
 	p
+korek:	k
+	ɔ
+	r
+koteczek:	k
+	ɔ
+	t
+	ɛ
+	t͡ʂ
+kotek:	k
+	ɔ
+	t
+kozłek:	k
+	ɔ
+	z
+	w
 kręgiel:	k
 	r
 	ɛ̃
 	gʲ
 krowianka:	k
+kruczek:	k
+	r
+	u
+	t͡ʂ
+kubek:	k
+	u
+	b
 kubeł:	k
 	u
 	b
@@ -154,19 +456,82 @@ kundel:	k
 kuper:	k
 	u
 	p
+kurek:	k
+	u
+	r
+kwiatek:	g
+	vʲ
+	i
+	a
+	t
+kwiatuszek:	g
+	vʲ
+	i
+	a
+	t
+	u
+	ʂ
 kwiecień:	g
 	vʲ
 	i
 	ɛ
 	t͡sʲ
+ładunek:	w
+	a
+	d
+	u
+	n
 łagiew:	w
 	a
 	gʲ
+lasek:	l
+	a
+	s
+lejek:	l
+	ɛ
+	j
+lelek:	l
+	ɛ
+	l
 len:	l
 łeż:	w
+listek:	lʲ
+	i
+	s
+	t
+łosiek:	w
+	ɔ
+	ɕ
+lulek:	l
+	u
+	l
+majeranek:	m
+	a
+	j
+	ɛ
+	r
+	a
+	n
+malunek:	m
+	a
+	l
+	u
+	n
+małżonek:	m
+	a
+	w
+	ʐ
+	ɔ
+	n
 mamer:	m
 	a
 	m
+marszałek:	m
+	a
+	r
+	ʂ
+	a
+	w
 mebel:	m
 	ɛ
 	b
@@ -174,6 +539,38 @@ mięsień:	mʲ
 	i
 	ɛ̃
 	ɕ
+miłek:	mʲ
+	i
+	w
+młotek:	m
+	w
+	ɔ
+	t
+monotlenek:	m
+	ɔ
+	n
+	ɔ
+	d
+	l
+	ɛ
+	n
+mostek:	m
+	ɔ
+	s
+	t
+motek:	m
+	ɔ
+	t
+motylek:	m
+	ɔ
+	t
+	ɨ
+	l
+móżdżek:	m
+	u
+	ʐ
+	d
+	ʐ
 mrówkolew:	m
 	r
 	u
@@ -181,26 +578,325 @@ mrówkolew:	m
 	k
 	ɔ
 	l
+mundurek:	m
+	u
+	n
+	d
+	u
+	r
+murek:	m
+	u
+	r
+nadczłowiek:	n
+	a
+	t
+	t͡ʂ
+	w
+	ɔ
+	vʲ
+nadgarstek:	n
+	a
+	d
+	g
+	a
+	r
+	s
+	t
+nagietek:	n
+	a
+	gʲ
+	i
+	ɛ
+	t
+nagłówek:	n
+	a
+	g
+	w
+	u
+	v
+naparstek:	n
+	a
+	p
+	a
+	r
+	s
+	t
+napiwek:	n
+	a
+	pʲ
+	i
+	v
+napletek:	n
+	a
+	b
+	l
+	ɛ
+	t
+nastolatek:	n
+	a
+	s
+	t
+	ɔ
+	l
+	a
+	t
+niecierpek:	ɲ
+	i
+	ɛ
+	t͡sʲ
+	i
+	ɛ
+	r
+	p
+niedopałek:	ɲ
+	i
+	ɛ
+	d
+	ɔ
+	p
+	a
+	w
+niedźwiadek:	ɲ
+	i
+	ɛ
+	d
+	ʑ
+	vʲ
+	i
+	a
+	d
+nieporządek:	ɲ
+	i
+	ɛ
+	p
+	ɔ
+	ʐ
+	ɔ̃
+	d
 nikiel:	ɲ
 	i
 	kʲ
+nurek:	n
+	u
+	r
+obowiązek:	ɔ
+	b
+	ɔ
+	vʲ
+	i
+	ɔ̃
+	z
 ocet:	ɔ
 	t͡s
+odcinek:	ɔ
+	t
+	t͡sʲ
+	i
+	n
+odpoczynek:	ɔ
+	t
+	p
+	ɔ
+	t͡ʂ
+	ɨ
+	n
 ogień:	ɔ
 	gʲ
+ogonek:	ɔ
+	g
+	ɔ
+	n
+ogórek:	ɔ
+	g
+	u
+	r
+ołówek:	ɔ
+	w
+	u
+	v
+opiłek:	ɔ
+	pʲ
+	i
+	w
+opłatek:	ɔ
+	p
+	w
+	a
+	t
 oset:	ɔ
 	s
 osioł:	ɔ
 	ɕ
+ostatek:	ɔ
+	s
+	t
+	a
+	t
 owies:	ɔ
 	vʲ
+pączek:	p
+	ɔ̃
+	t͡ʂ
+pajączek:	p
+	a
+	j
+	ɔ̃
+	t͡ʂ
+papierek:	p
+	a
+	pʲ
+	i
+	ɛ
+	r
+pasek:	p
+	a
+	s
+pępek:	p
+	ɛ̃
+	p
+piątek:	pʲ
+	i
+	ɔ̃
+	t
 pień:	pʲ
+pierścionek:	pʲ
+	i
+	ɛ
+	r
+	ɕ
+	t͡sʲ
+	i
+	ɔ
+	n
+pierwiastek:	pʲ
+	i
+	ɛ
+	r
+	vʲ
+	i
+	a
+	s
+	t
+pieseczek:	pʲ
+	i
+	ɛ
+	s
+	ɛ
+	t͡ʂ
 pies:	pʲ
+piżmaczek:	pʲ
+	i
+	ʐ
+	m
+	a
+	t͡ʂ
+placek:	b
+	l
+	a
+	t͡s
 plaster:	b
 	l
 	a
 	s
 	t
+płatek:	p
+	w
+	a
+	t
+płetwonurek:	p
+	w
+	ɛ
+	d
+	v
+	ɔ
+	n
+	u
+	r
+pocałunek:	p
+	ɔ
+	t͡s
+	a
+	w
+	u
+	n
+pochówek:	p
+	ɔ
+	x
+	u
+	v
+początek:	p
+	ɔ
+	t͡ʂ
+	ɔ̃
+	t
+poczęstunek:	p
+	ɔ
+	t͡ʂ
+	ɛ̃
+	s
+	t
+	u
+	n
+podatek:	p
+	ɔ
+	d
+	a
+	t
+podbródek:	p
+	ɔ
+	d
+	p
+	r
+	u
+	d
+podgrzybek:	p
+	ɔ
+	d
+	g
+	ʐ
+	ɨ
+	b
+podkoszulek:	p
+	ɔ
+	t
+	k
+	ɔ
+	ʂ
+	u
+	l
+podtlenek:	p
+	ɔ
+	t
+	d
+	l
+	ɛ
+	n
+podwieczorek:	p
+	ɔ
+	d
+	vʲ
+	i
+	ɛ
+	t͡ʂ
+	ɔ
+	r
+pojedynek:	p
+	ɔ
+	j
+	ɛ
+	d
+	ɨ
+	n
+polaczek:	p
+	ɔ
+	l
+	a
+	t͡ʂ
+policzek:	p
+	ɔ
+	lʲ
+	i
+	t͡ʂ
 poliester:	p
 	ɔ
 	lʲ
@@ -214,42 +910,317 @@ półwysep:	p
 	v
 	ɨ
 	s
+poniedziałek:	p
+	ɔ
+	ɲ
+	i
+	ɛ
+	d
+	ʑ
+	i
+	a
+	w
+poranek:	p
+	ɔ
+	r
+	a
+	n
+porządek:	p
+	ɔ
+	ʐ
+	ɔ̃
+	d
 poseł:	p
 	ɔ
 	s
+posiłek:	p
+	ɔ
+	ɕ
+	i
+	w
+pośladek:	p
+	ɔ
+	ʑ
+	l
+	a
+	d
+potomek:	p
+	ɔ
+	t
+	ɔ
+	m
+pożytek:	p
+	ɔ
+	ʐ
+	ɨ
+	t
+pradziadek:	p
+	r
+	a
+	d
+	ʑ
+	i
+	a
+	d
+praporządek:	p
+	r
+	a
+	p
+	ɔ
+	ʐ
+	ɔ̃
+	d
+prawiczek:	p
+	r
+	a
+	vʲ
+	i
+	t͡ʂ
+prawnuczek:	p
+	r
+	a
+	v
+	n
+	u
+	t͡ʂ
 precel:	p
 	r
 	ɛ
 	t͡s
+proszek:	p
+	r
+	ɔ
+	ʂ
+przecinek:	b
+	ʐ
+	ɛ
+	t͡sʲ
+	i
+	n
+przedimek:	b
+	ʐ
+	ɛ
+	dʲ
+	i
+	m
+przedrostek:	b
+	ʐ
+	ɛ
+	t
+	r
+	ɔ
+	s
+	t
+przedsionek:	b
+	ʐ
+	ɛ
+	t
+	ɕ
+	i
+	ɔ
+	n
+przeżytek:	b
+	ʐ
+	ɛ
+	ʐ
+	ɨ
+	t
+przydomek:	b
+	ʐ
+	ɨ
+	d
+	ɔ
+	m
+przyimek:	b
+	ʐ
+	ɨ
+	i
+	m
+przyrostek:	b
+	ʐ
+	ɨ
+	r
+	ɔ
+	s
+	t
+przysłówek:	b
+	ʐ
+	ɨ
+	s
+	w
+	u
+	v
+przystanek:	b
+	ʐ
+	ɨ
+	s
+	t
+	a
+	n
+ptaszek:	p
+	t
+	a
+	ʂ
 pudel:	p
 	u
+	d
+rabunek:	r
+	a
+	b
+	u
+	n
+rachunek:	r
+	a
+	x
+	u
+	n
+rodzynek:	r
+	ɔ
+	d
+	z
+	ɨ
+	n
+rozbitek:	r
+	ɔ
+	z
+	bʲ
+	i
+	t
+rozsądek:	r
+	ɔ
+	s
+	s
+	ɔ̃
 	d
 rubel:	r
 	u
 	b
+rumianek:	r
+	u
+	mʲ
+	i
+	a
+	n
 rydel:	r
 	ɨ
 	d
+rynek:	r
+	ɨ
+	n
+rysunek:	r
+	ɨ
+	s
+	u
+	n
 rzodkiew:	ʐ
 	ɔ
 	t
 	kʲ
+schowek:	z
+	x
+	ɔ
+	v
+siarczek:	ɕ
+	i
+	a
+	r
+	t͡ʂ
 sierpień:	ɕ
 	i
 	ɛ
 	r
 	pʲ
+skowronek:	s
+	k
+	ɔ
+	v
+	r
+	ɔ
+	n
+skrzypek:	s
+	g
+	ʐ
+	ɨ
+	p
+skutek:	s
+	k
+	u
+	t
+słoiczek:	s
+	w
+	ɔ
+	i
+	t͡ʂ
+słupek:	s
+	w
+	u
+	p
 sopel:	s
 	ɔ
 	p
+spadek:	s
+	p
+	a
+	d
+spisek:	s
+	pʲ
+	i
+	s
+spodek:	s
+	p
+	ɔ
+	d
+środek:	ɕ
+	r
+	ɔ
+	d
+śródrostek:	ɕ
+	r
+	u
+	t
+	r
+	ɔ
+	s
+	t
 stągiew:	s
 	t
 	ɔ̃
 	gʲ
+statek:	s
+	t
+	a
+	t
+stoliczek:	s
+	t
+	ɔ
+	lʲ
+	i
+	t͡ʂ
 stopień:	s
 	t
 	ɔ
 	pʲ
+stosunek:	s
+	t
+	ɔ
+	s
+	u
+	n
+stożek:	s
+	t
+	ɔ
+	ʐ
+stryjek:	s
+	t
+	r
+	ɨ
+	j
+stulatek:	s
+	t
+	u
+	l
+	a
+	t
 styczeń:	s
 	t
 	ɨ
@@ -264,6 +1235,11 @@ sweter:	z
 	v
 	ɛ
 	t
+świadek:	ʑ
+	vʲ
+	i
+	a
+	d
 świder:	ʑ
 	vʲ
 	i
@@ -275,11 +1251,44 @@ sylwester:	s
 	ɛ
 	s
 	t
+szacunek:	ʂ
+	a
+	t͡s
+	u
+	n
 szczygieł:	ʂ
 	t͡ʂ
 	ɨ
 	gʲ
+szczypiorek:	ʂ
+	t͡ʂ
+	ɨ
+	pʲ
+	i
+	ɔ
+	r
+sześćdziesięciolatek:	ʂ
+	ɛ
+	ɕ
+	t͡ʂ
+	d
+	ʑ
+	i
+	ɛ
+	ɕ
+	i
+	ɛ̃
+	t͡sʲ
+	i
+	ɔ
+	l
+	a
+	t
 szew:	ʂ
+sznurek:	ʐ
+	n
+	u
+	r
 szpadel:	ʂ
 	p
 	a
@@ -292,6 +1301,10 @@ tender:	t
 	ɛ
 	n
 	d
+tlenek:	d
+	l
+	ɛ
+	n
 tornister:	t
 	ɔ
 	r
@@ -299,18 +1312,55 @@ tornister:	t
 	i
 	s
 	t
+traganek:	t
+	r
+	a
+	g
+	a
+	n
 truteń:	t
 	r
 	u
 	t
+tyłek:	t
+	ɨ
+	w
+tymianek:	t
+	ɨ
+	mʲ
+	i
+	a
+	n
 uczeń:	u
 	t͡ʂ
+ułamek:	u
+	w
+	a
+	m
+upadek:	u
+	p
+	a
+	d
+uśmieszek:	u
+	ʑ
+	mʲ
+	i
+	ɛ
+	ʂ
 wafel:	v
 	a
 	f
 wągier:	v
 	ɔ̃
 	gʲ
+warunek:	v
+	a
+	r
+	u
+	n
+wątek:	v
+	ɔ̃
+	t
 węgiel:	v
 	ɛ̃
 	gʲ
@@ -325,9 +1375,35 @@ wesz:	v
 węzeł:	v
 	ɛ̃
 	z
+wianek:	vʲ
+	i
+	a
+	n
+wiaterek:	vʲ
+	i
+	a
+	t
+	ɛ
+	r
 wicher:	vʲ
 	i
 	x
+wielokropek:	vʲ
+	i
+	ɛ
+	l
+	ɔ
+	k
+	r
+	ɔ
+	p
+wiesiołek:	vʲ
+	i
+	ɛ
+	ɕ
+	i
+	ɔ
+	w
 wieś:	vʲ
 więzień:	vʲ
 	i
@@ -340,21 +1416,140 @@ wihajster:	vʲ
 	j
 	s
 	t
+wizerunek:	vʲ
+	i
+	z
+	ɛ
+	r
+	u
+	n
+wniosek:	v
+	ɲ
+	i
+	ɔ
+	s
+wnuczek:	v
+	n
+	u
+	t͡ʂ
+worek:	v
+	ɔ
+	r
+wózek:	v
+	u
+	z
 wróbel:	v
 	r
 	u
 	b
+wrzątek:	v
+	ʐ
+	ɔ̃
+	t
 wrzesień:	v
 	ʐ
 	ɛ
 	ɕ
+wtorek:	v
+	t
+	ɔ
+	r
+wujek:	v
+	u
+	j
+wyjątek:	v
+	ɨ
+	j
+	ɔ̃
+	t
+wypadek:	v
+	ɨ
+	p
+	a
+	d
+wyrzutek:	v
+	ɨ
+	ʐ
+	u
+	t
+wysiłek:	v
+	ɨ
+	ɕ
+	i
+	w
 wyżeł:	v
 	ɨ
 	ʐ
 żagiel:	ʐ
 	a
 	gʲ
+zaimek:	z
+	a
+	i
+	m
+zajączek:	z
+	a
+	j
+	ɔ̃
+	t͡ʂ
+zalążek:	z
+	a
+	l
+	ɔ̃
+	ʐ
+zegarek:	z
+	ɛ
+	g
+	a
+	r
 zew:	z
+ziemniaczek:	ʑ
+	i
+	ɛ
+	m
+	ɲ
+	i
+	a
+	t͡ʂ
+zimorodek:	ʑ
+	i
+	m
+	ɔ
+	r
+	ɔ
+	d
+ziomek:	ʑ
+	i
+	ɔ
+	m
+żłobek:	ʐ
+	w
+	ɔ
+	b
+żłóbek:	ʐ
+	w
+	u
+	b
+żołądek:	ʐ
+	ɔ
+	w
+	ɔ̃
+	d
+żółtek:	ʐ
+	u
+	w
+	t
+żurek:	ʐ
+	u
+	r
 żużel:	ʐ
 	u
 	ʐ
+związek:	z
+	vʲ
+	i
+	ɔ̃
+	z
+żydek:	ʐ
+	ɨ
+	d
