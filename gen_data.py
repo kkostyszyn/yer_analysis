@@ -8,14 +8,14 @@ import sys
 from paradigm import Paradigm, Features
 from translate_pol import Translate
 
-<<<<<<< HEAD
-=======
 def statistics(d):
 	"""
 	Takes the yer-found dictionary and uses the prefix to save the environment before and after for stats.
 	"""
 	env_before = {}
+	immediate_before = {}
 	env_after = {}
+	immediate_after = {}
 	count = 0
 	for i in d.keys():
 		#Remember that the items in d[i] are lists, not strings.
@@ -24,26 +24,41 @@ def statistics(d):
 		#Find environment BEFORE yer 
 		#change to using 'consonant_seq' function 
 		b = consonant_seq_before(d[i])
-		#print("before:", b)
+		
 		
 		#Find environment AFTER yer 
+		#first, remove initial vowels
+		#then, if anything remains, run cons
 		e = consonant_seq_after(d[i])
-		#print("after:", e)
-		
+
 		#Add to env dictionaries 
 		try:
 			env_before[b] += 1
 		except:
 			env_before[b] = 1
-			
+		
 		try:
 			env_after[e] += 1
 		except:
 			env_after[e] = 1
 			
+		#Add to immediate dictionaries
+		try:
+			immediate_before[d[i][-1]] += 1
+		except:
+			immediate_before[d[i][-1][b]] = 1
+			
+		try:
+			immediate_after[d[i][0]] += 1
+		except:
+			immediate_after[d[i][0][b]] = 1
+
 	return (env_before, env_after, count)
 	
 def remove_items(d, suffix, after = False) -> dict:
+	"""
+	Removing items with substring from list.
+	"""
 	d_copy = {}
 	for i in d:
 		if after and suffix in i:
@@ -64,7 +79,6 @@ def remove_items(d, suffix, after = False) -> dict:
 		
 	return d_copy
 
->>>>>>> Fixing statistics
 def test_print(data):
     """
     Purely for testing purposes.
@@ -121,48 +135,56 @@ def vowel(ch) -> bool:
 		return True
 	return False 
 
-def consonant_seq_before(txt) -> str:
+def consonant_seq_before(txt: list) -> str:
 	"""
+	txt is a list. 
+	
 	Given some string, finds all consonants at the end of the string (until interrupted by vowel).
 	Assumes that the string is the prefix for a yer.
 	"""
-	if len(txt) == 1:
-		if vowel(txt):
-			return ""
-		return txt
-	if vowel(txt[-1]):
-		return ""
-	else:
-		try:
-			return consonant_seq_before(txt[:-1]) + txt[-1]
-		except: 
-			print(consonant_seq_before(txt[:-1]), txt[-1])
-			return ""
+	
+	#Base case - if a single phone, return either an empty list 
+	if len(txt) <= 1:
+		if not vowel(txt[0]):
+			return txt[0]
+		return ''
 		
+	#Otherwise - Check if current last phone is a consonant, then repeat on next 
+	#If vowel, end sequence
+	if vowel(txt[-1]):
+		return ''
+	else:
+		return consonant_seq_before(txt[:1]) + txt[-1]
+
 def consonant_seq_after(txt) -> str:
 	"""
 	Given some string, finds all consonants at beginning of a string (until interrupted by vowel).
 	Assumes that the string is a suffix for a year.
 	"""
-	if len(txt) == 1:
-		if vowel(txt):
-			return ""
-		return txt
+	
+	if len(txt) <= 1:
+		if not vowel(txt[0]):
+			return txt[0]
+		return ''
+		
 	if vowel(txt[0]):
 		return ""
 	else:
-		try:
-			return txt[0] + consonant_seq_after(txt[1:]) 
-		except:
-			print(txt[0], consonant_seq_after(txt[1:]))
-			return ""
-			
+		return txt[0] + consonant_seq_after(txt[1:])
+		
 def prefix(str, pos):
 	"""
 	Shortcut to return a substring, sliced up to an excluding a certain position.
 	"""
 	return str[:pos]
 
+def to_str(lst):
+	x = ''
+	if isinstance(lst, list):
+		for item in lst:
+			x = x + item
+	return x
+	
 def strip_text(txt):
 	"""
 	Takes a line in the following format, from the 'SAVE.txt' list of bundles:
@@ -228,22 +250,6 @@ def main(load = False):
 				except:
 					#Strings that contain 'q' or punctuation (hyphenation, apostrophes, etc.) will be rejected by the transducer. 
 					print(temp[1])
-				#Original code for testing Transducer against WikiPron standard
-				"""
-				if temp[1] in pron_dict.keys():
-					try:
-						test = tr.t(temp[1])
-						if test != pron_dict[temp[1]]:
-							print(temp[1], "\n\t" + pron_dict[temp[1]], "\n\t"+ test)
-					except:
-						print("Failed: ", temp[1])
-					bundles[temp[0]].append((pron_dict[temp[1]], temp[2]))
-				else:
-					try:	
-						bundles[temp[0]].append((tr.t(temp[1]), temp[2]))
-					except:
-						pass
-				"""		
 		#Using this saved text, generate a new bundles dictionary 
 		save_as_text("data/SAVE.txt", bundles)
 	else: #if i'm using the saved bundle list 
@@ -270,6 +276,7 @@ def main(load = False):
 	try:
 		bundles.pop('tydzień')
 		bundles.pop('człowiek')
+	except: pass
 		
 	yer_found = {}
 
@@ -295,8 +302,7 @@ def main(load = False):
 			print(root)
 						
 	save_as_text("data/lemmas.txt", yer_found)
-<<<<<<< HEAD
-=======
+
 	before, after, count = statistics(yer_found)
 	#save_as_text("data/stats_with_ek_before.txt", before)
 	#save_as_text("data/stats_with_ek_after.txt", after)
@@ -306,6 +312,7 @@ def main(load = False):
 	print(after)
 	print(count)
 	
+	"""
 	#yer_found = remove_items(yer_found, "eczek")
 	yer_found = remove_items(yer_found, "ek")
 	save_as_text("data/lemmas_minus_ek.txt", yer_found)
@@ -317,12 +324,8 @@ def main(load = False):
 	print("AFTER:")
 	print(after)
 	print(count)
+	"""
 	
-	
-	#get stats
-	#remove 'ek'
-	#repeat
->>>>>>> Fixing statistics
 
 ################################
 if __name__ == "__main__":
