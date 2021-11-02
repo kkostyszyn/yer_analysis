@@ -143,8 +143,7 @@ def statistics(d):
 	"""
 	Takes the yer-found dictionary and uses the prefix to save the environment before and after for stats.
 	
-	d: a dictionary, where the key is the orthographic word, and the value is the pre-yer prefix in IPA 
-	###CHANGE TO -->d: a dictionary, where the key is the orthographic word, and the value is a tuple of the full IPA word and the IPA prefix
+	d: a dictionary, where the key is the orthographic word, and the value is a dictionay of 'IPA' and 'prefix' 
 	
 	
 	count:		the number of words considered when building dictionaries 
@@ -169,13 +168,13 @@ def statistics(d):
 		#Find environment BEFORE yer 
 		#change to using 'consonant_seq' function 
 		try:
-			b = consonant_seq_before(d[i])
+			b = consonant_seq_before(d[i]['prefix'])
 		except:
-			print("Fail consonant_seq_before(",d[i],") - ",i)
+			print("Fail consonant_seq_before(",d[i]['prefix'],") - ",i)
 				
 		#Find environment AFTER yer 
-		#first, remove initial vowels
-		#then, if anything remains, run cons
+		#first, remove prefix
+		#then, remove any further vowels
 		temp = suffix(d[i])
 		if temp:
 			e = consonant_seq_after(temp)
@@ -195,14 +194,14 @@ def statistics(d):
 			
 		#Add to immediate dictionaries
 		try:
-			immediate_before[d[i][-1]] += 1
+			immediate_before[d[i]['prefix'][-1]] += 1
 		except:
-			immediate_before[d[i][-1]] = 1
+			immediate_before[d[i]['prefix'][-1]] = 1
 			
 		try:
-			immediate_after[d[i][0]] += 1
+			immediate_after[temp[0]] += 1
 		except:
-			immediate_after[d[i][0]] = 1
+			immediate_after[temp[0]] = 1
 			
 		prefix_align[i] = (b, e)
 		
@@ -227,17 +226,27 @@ def strip_text(txt):
 	
 	return txt
 
-def suffix(txt):
+def suffix(d):
 	"""
 	When finding the environment after the yer, strip initial vowels. 
+	
+	txt: a dictionary with 'IPA' and 'prefix' as the keys.
 	"""
-	if len(txt) > 0:
-		if vowel(txt[0]):
-			return suffix(txt[1:])
-		else:
-			return txt
-	else:
-		return ''
+	
+	#First, remove the prefix from the IPA form 
+	print(d)
+	p = d['prefix']
+	txt = d['IPA']
+	
+	while p:
+		p = p[1:]
+		txt = txt[1:]
+	#print(d['IPA'], txt)
+	
+	while vowel(txt[0]):
+		txt = txt[1:]
+	print(d, txt)
+	return txt
 		
 def test_print(data):
     """
@@ -361,7 +370,7 @@ def main(load = False):
 								pre = prefix(temp, ch_pos)
 							else: 	
 								pre = prefix(pair[0], ch_pos)
-							yer_found[root] = pre 
+							yer_found[root] = {'IPA': temp, 'prefix': pre} 
 								#find prefix 
 		except:
 			print(root)
