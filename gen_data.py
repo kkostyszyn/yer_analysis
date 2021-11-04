@@ -141,6 +141,8 @@ def save_as_text(save, data):
 	
 def statistics(d):
 	"""
+	!! REWRITE THIS TO USE THE PARADIGM CLASS
+	
 	Takes the yer-found dictionary and uses the prefix to save the environment before and after for stats.
 	
 	d: a dictionary, where the key is the orthographic word, and the value is a dictionay of 'IPA' and 'prefix' 
@@ -168,14 +170,15 @@ def statistics(d):
 		#Find environment BEFORE yer 
 		#change to using 'consonant_seq' function 
 		try:
-			b = consonant_seq_before(d[i]['prefix'])
+			b = consonant_seq_before(d[i].prefix())
 		except:
-			print("Fail consonant_seq_before(",d[i]['prefix'],") - ",i)
+			print("Fail consonant_seq_before(",d[i].prefix(),") - ",i)
 				
 		#Find environment AFTER yer 
 		#first, remove prefix
 		#then, remove any further vowels
-		temp = suffix(d[i])
+		###THIS WILL NEED CHANGING, to apply to all forms associated with the lemma
+		temp = suffix(d[i].lemma())
 		if temp:
 			e = consonant_seq_after(temp)
 		else:
@@ -194,9 +197,9 @@ def statistics(d):
 			
 		#Add to immediate dictionaries
 		try:
-			immediate_before[d[i]['prefix'][-1]] += 1
+			immediate_before[d[i].prefix()[-1]] += 1
 		except:
-			immediate_before[d[i]['prefix'][-1]] = 1
+			immediate_before[d[i].prefix()[-1]] = 1
 			
 		try:
 			immediate_after[temp[0]] += 1
@@ -292,6 +295,7 @@ def main(load = False):
 		wp = wp.readlines()
 
 		pron_dict = {}
+		morph_info = {}
 
 		for line in wp:
 			temp = re.split(r"\t", line)
@@ -313,6 +317,8 @@ def main(load = False):
 			temp = re.split(r"\s+", x)
 			tags = re.split(r";", temp[2])
 			if tags[0] == 'N' and temp[0].lower() == temp[0]: #remove proper nouns - Zydow, Amerikanami
+				#add dictionary of inflectional information to add to the paradigms 
+				morph_info[temp[1]] = temp[2]
 				if temp[0] not in bundles.keys():
 					bundles[temp[0]] = []
 				#Change this line when building for Paradigm object - revert to tuples
@@ -353,6 +359,7 @@ def main(load = False):
 	except: pass
 		
 	yer_found = {}
+	yer_found_par = {}
 
 	#For every item in the bundles dictionary, compare the 'lemma' (minus final vowels) to each root and find yer environment 
 	for root in bundles.keys():
@@ -363,15 +370,25 @@ def main(load = False):
 				if not isinstance(pair, str):
 					for ch_pos in domain(temp):
 						if vowel(temp[ch_pos]) != vowel(pair[ch_pos]):
-							#print(ch_pos, temp , "\t", pair)
 							#if, for any consonant in one form, the corresponding character in the other form is a vowel (or vice versa) - log this as the prefix, marking a yer.
+							
 							#ONLY look in the 'root'
 							if vowel(temp[ch_pos]):
 								pre = prefix(temp, ch_pos)
+								in_lem = True
 							else: 	
 								pre = prefix(pair[0], ch_pos)
-							yer_found[root] = {'IPA': temp, 'prefix': pre} 
-								#find prefix 
+								in_lem = False 
+								
+							print(in_lem)
+							yer_found[root] = {'IPA': temp, 'prefix': pre}
+							
+							#If the paradigm doesn't already exist, add it to the dictionary
+							#In all cases, update to map inflected form to inflectional info 
+							if not yer_found_par.get(root):
+								yer_found_par[root] = Paradigm(pre, root, in_lem)
+							yer_found_par[root].update()
+																
 		except:
 			print(root)
 						
