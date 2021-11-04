@@ -3,17 +3,25 @@
 
 class Paradigm:
 	"""
-		Given a list of words, scan to determine if a yer is present. If
-		so, make the paradigm a pair of Feature objects to compare.
+		For forms that already have been determined to have yers, store the lemma and prefix, 
+		whether the yer is in the lemma, and if not, store a dictionary of yer-bearing inflected
+		forms and their inflectional info.
 	"""
-	def __init__(self, wrd: str, lem_yer: bool, forms) -> None:
+	def __init__(self, prefix: str lemma: str, lem_yer: bool) -> None:
 		"""
 		Compare the lemma form against all inflected forms to determine
 		if there is a yer. If so, create Features.
+
+		forms:		(dict) Morphological info : full form
+		lemma: 		(string) lemma of the paradigm
+		lem_yer:	(bool) If true, lemma has the yer; if false, yer only present in inflection
+		prefix:		(string) prefix before the yer
 		"""
 		self.lemma = wrd
 		self.lem_yer = lem_yer
+		self.prefix = prefix
 		
+		self.forms = {}
 		
 
 	def __repr__(self):
@@ -26,12 +34,8 @@ class Paradigm:
 		s += "\n"
 		return s 
 		
-	def is_yer(lem, inf) -> bool:
-		"""
-		Take two forms to compare place-by-place to determine if a yet.
-		Must except suffixes. 
-		"""
-		return True 
+	def update(lem: str, inf: str):
+		self.forms[lem] = inf
 
 class Features:
 	"""
