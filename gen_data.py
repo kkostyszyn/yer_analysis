@@ -55,6 +55,12 @@ def domain(lst):
 	"""
 	return (range(len(lst) - 1))
 
+def extract_syllable_no_yer(lem: list) -> str:
+	"""
+	For a word pair with no yer, take the lemma, and go backward finding the last syllable set of CVC.
+	"""
+	return True
+	
 def prefix(st: str, pos: int):
 	"""
 	Shortcut to return a substring, sliced up to an excluding a certain position.
@@ -168,7 +174,6 @@ def statistics(d):
 		count += 1
 		
 		#Find environment BEFORE yer 
-		#change to using 'consonant_seq' function 
 		try:
 			b = consonant_seq_before(d[i].prefix())
 		except:
@@ -226,6 +231,7 @@ def strip_text(txt):
 	txt[0] = txt[0].split(', ')
 	
 	txt[1] = re.sub("\n", "", txt[1])
+	txt[1] = re.sub("[,\s]", "", txt[1])
 	
 	return txt
 
@@ -278,6 +284,15 @@ def vowel(ch) -> bool:
 		return True
 	return False 
 	
+def word_boundary(word1: list, word2: list, position: int):
+	"""
+	Given two words, determine if the end word boundary has been reached for either of them.
+	"""
+	if position >= len(word1):
+		return True
+	elif position >= len(word1):
+		return True
+	return False
 	
 def main(load = False):
 	"""
@@ -318,7 +333,6 @@ def main(load = False):
 			tags = re.split(r";", temp[2])
 			if tags[0] == 'N' and temp[0].lower() == temp[0]: #remove proper nouns - Zydow, Amerikanami
 				#add dictionary of inflectional information to add to the paradigms 
-				morph_info[temp[1]] = temp[2]
 				if temp[0] not in bundles.keys():
 					bundles[temp[0]] = []
 				#Change this line when building for Paradigm object - revert to tuples
@@ -343,13 +357,12 @@ def main(load = False):
 			line = line.split(":")
 			if len(line) > 1:
 				temp = line[0]
-			bundles[temp] = strip_text(line[-1])
-	
-	#testing Paradigm data structure
-	"""
-	for x in bundles.keys():
-		print(Paradigm(x, bundles[x]))
-	"""
+			ipa, inf = strip_text(line[-1])
+			
+			if bundles.get(temp):
+				bundles[temp][inf] = ipa
+			else:
+				bundles[temp] = {inf: ipa}
 
 	#These are exceptional forms, with significantly different forms (czlowiek~ludzi, tydzien~tygodniu).
 	#In the future, have the user upload a list of exceptions to pop from the bundles.
@@ -360,40 +373,41 @@ def main(load = False):
 		
 	yer_found = {}
 	yer_found_par = {}
-
 	#For every item in the bundles dictionary, compare the 'lemma' (minus final vowels) to each root and find yer environment 
 	for root in bundles.keys():
 		try:
 			temp = root_without_final_vowels(tr.t(root).split())
-			for pair in bundles[root]:
-				#First - decide how to treat unimorph vs wikipron data 
-				if not isinstance(pair, str):
-					for ch_pos in domain(temp):
-						if vowel(temp[ch_pos]) != vowel(pair[ch_pos]):
-							#if, for any consonant in one form, the corresponding character in the other form is a vowel (or vice versa) - log this as the prefix, marking a yer.
-							
-							#ONLY look in the 'root'
-							if vowel(temp[ch_pos]):
-								pre = prefix(temp, ch_pos)
-								in_lem = True
-							else: 	
-								pre = prefix(pair[0], ch_pos)
-								in_lem = False 
-								
-							print(in_lem)
-							yer_found[root] = {'IPA': temp, 'prefix': pre}
-							
-							#If the paradigm doesn't already exist, add it to the dictionary
-							#In all cases, update to map inflected form to inflectional info 
-							if not yer_found_par.get(root):
-								yer_found_par[root] = Paradigm(pre, root, in_lem)
-							yer_found_par[root].update()
-																
-		except:
-			print(root)
+			
+			for inflected_form in bundles[root]:
+				for ch_pos in domain(temp):
+					if vowel(temp[ch_pos]) != vowel(bundles[root][inflected_form][ch_pos]):
+						#if, for any consonant in one form, the corresponding character in the other form is a vowel (or vice versa) - log this as the prefix, marking a yer.
+						
+						#ONLY look in the 'root'
+						if vowel(temp[ch_pos]):
+							pre = prefix(temp, ch_pos)
+							in_lem = False
+						else: 	
+							pre = prefix(bundles[root][inflected_form], ch_pos)
+							in_lem = True 
+						
+						yer_found[root] = {'IPA': temp, 'prefix': prefix(temp, ch_pos)}
+						
+						#If the paradigm doesn't already exist, add it to the dictionary
+						#In all cases, update to map inflected form to inflectional info 
+						if not yer_found_par.get(root):
+							yer_found_par[root] = Paradigm(root, yer_found[root]['prefix'])
+						yer_found_par[root].update(bundles[root][inflected_form], re.sub(r"[,\s]", r"", inflected_form), in_lem)
+
+					#elif we've found the word boundary in either word, store as No Yer 			
+					elif word_boundary(temp, bundles[root][inflected_form], ch_pos):
+						extract_syllable_no_yer()
+		except: 
+			print("Translation failure:", root)
 						
 	save_as_text("data/lemmas.txt", yer_found)
-
+	print(len(yer_found_par))
+	
 	
 	before, after, immediate_before, immediate_after, count = statistics(yer_found)
 	#save_as_text("data/stats_with_ek_before.txt", before)

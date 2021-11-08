@@ -2,6 +2,8 @@ alabaster:	IPA
 	prefix
 aniołek:	IPA
 	prefix
+antyszczepionkowiec:	IPA
+	prefix
 asenterunek:	IPA
 	prefix
 bąbelek:	IPA
@@ -16,7 +18,13 @@ bęben:	IPA
 	prefix
 bimber:	IPA
 	prefix
+biurowiec:	IPA
+	prefix
 bochen:	IPA
+	prefix
+bodziec:	IPA
+	prefix
+bolec:	IPA
 	prefix
 bratanek:	IPA
 	prefix
@@ -24,21 +32,33 @@ bratek:	IPA
 	prefix
 brew:	IPA
 	prefix
+browiec:	IPA
+	prefix
 brukiew:	IPA
+	prefix
+brukowiec:	IPA
 	prefix
 brzuszek:	IPA
 	prefix
 budynek:	IPA
 	prefix
+bywalec:	IPA
+	prefix
 ceber:	IPA
 	prefix
 cerkiew:	IPA
+	prefix
+chłopczyk:	IPA
+	prefix
+chłopiec:	IPA
 	prefix
 chlorek:	IPA
 	prefix
 chorągiew:	IPA
 	prefix
 chrzest:	IPA
+	prefix
+cudzoziemiec:	IPA
 	prefix
 cugiel:	IPA
 	prefix
@@ -62,6 +82,8 @@ czek:	IPA
 	prefix
 czepek:	IPA
 	prefix
+czerwiec:	IPA
+	prefix
 czopek:	IPA
 	prefix
 czosnaczek:	IPA
@@ -69,6 +91,8 @@ czosnaczek:	IPA
 czosnek:	IPA
 	prefix
 czwartek:	IPA
+	prefix
+dachowiec:	IPA
 	prefix
 daktylowiec:	IPA
 	prefix
@@ -84,11 +108,15 @@ diabeł:	IPA
 	prefix
 dodatek:	IPA
 	prefix
+dolec:	IPA
+	prefix
 domek:	IPA
 	prefix
 dudek:	IPA
 	prefix
 dupek:	IPA
+	prefix
+dworzec:	IPA
 	prefix
 dwukropek:	IPA
 	prefix
@@ -98,9 +126,15 @@ dyszel:	IPA
 	prefix
 dziadek:	IPA
 	prefix
+dziedziniec:	IPA
+	prefix
 dzióbek:	IPA
 	prefix
+dziurawiec:	IPA
+	prefix
 dzwonek:	IPA
+	prefix
+dzwoniec:	IPA
 	prefix
 ester:	IPA
 	prefix
@@ -110,11 +144,17 @@ farfocel:	IPA
 	prefix
 fenek:	IPA
 	prefix
+filmowiec:	IPA
+	prefix
 fiołek:	IPA
 	prefix
 fistaszek:	IPA
 	prefix
+fristajlowiec:	IPA
+	prefix
 ganek:	IPA
+	prefix
+gargulec:	IPA
 	prefix
 garnek:	IPA
 	prefix
@@ -126,17 +166,51 @@ gatunek:	IPA
 	prefix
 giez:	IPA
 	prefix
+głupek:	IPA
+	prefix
+głupiec:	IPA
+	prefix
+głuszec:	IPA
+	prefix
 gołąbek:	IPA
+	prefix
+gościniec:	IPA
+	prefix
+granatowiec:	IPA
 	prefix
 grzybek:	IPA
 	prefix
 guziczek:	IPA
 	prefix
+guziec:	IPA
+	prefix
 gwizdek:	IPA
+	prefix
+hamulec:	IPA
 	prefix
 hebel:	IPA
 	prefix
+jałowiec:	IPA
+	prefix
+janowiec:	IPA
+	prefix
+japoniec:	IPA
+	prefix
 jarząbek:	IPA
+	prefix
+jaśminowiec:	IPA
+	prefix
+jaźwiec:	IPA
+	prefix
+jednorożec:	IPA
+	prefix
+jehowiec:	IPA
+	prefix
+jeniec:	IPA
+	prefix
+jeździec:	IPA
+	prefix
+jeżowiec:	IPA
 	prefix
 języczek:	IPA
 	prefix
@@ -144,15 +218,31 @@ kabaczek:	IPA
 	prefix
 kabel:	IPA
 	prefix
+kaganiec:	IPA
+	prefix
+kakaowiec:	IPA
+	prefix
 kanarek:	IPA
+	prefix
+kapeć:	IPA
 	prefix
 kapitel:	IPA
 	prefix
 karabinek:	IPA
 	prefix
+karbieniec:	IPA
+	prefix
 kartofel:	IPA
 	prefix
+karzeł:	IPA
+	prefix
+kasztanowiec:	IPA
+	prefix
+kauczukowiec:	IPA
+	prefix
 kawałek:	IPA
+	prefix
+kawowiec:	IPA
 	prefix
 kibel:	IPA
 	prefix
@@ -162,11 +252,17 @@ kieł:	IPA
 	prefix
 kierunek:	IPA
 	prefix
+kieszonkowiec:	IPA
+	prefix
+kitajec:	IPA
+	prefix
 kitel:	IPA
 	prefix
 kłębek:	IPA
 	prefix
 kliper:	IPA
+	prefix
+kłykieć:	IPA
 	prefix
 knebel:	IPA
 	prefix
@@ -175,6 +271,8 @@ kochanek:	IPA
 kociołek:	IPA
 	prefix
 kocioł:	IPA
+	prefix
+kolec:	IPA
 	prefix
 koliber:	IPA
 	prefix
@@ -188,19 +286,33 @@ kopciuszek:	IPA
 	prefix
 koper:	IPA
 	prefix
+kopiec:	IPA
+	prefix
 korek:	IPA
+	prefix
+kosaciec:	IPA
 	prefix
 koteczek:	IPA
 	prefix
 kotek:	IPA
 	prefix
+koziorożec:	IPA
+	prefix
 kozłek:	IPA
 	prefix
+krawiec:	IPA
+	prefix
 kręgiel:	IPA
+	prefix
+kręgowiec:	IPA
+	prefix
+krogulec:	IPA
 	prefix
 krowianka:	IPA
 	prefix
 kruczek:	IPA
+	prefix
+kruszec:	IPA
 	prefix
 kubek:	IPA
 	prefix
@@ -216,6 +328,8 @@ kundel:	IPA
 	prefix
 kuper:	IPA
 	prefix
+kupiec:	IPA
+	prefix
 kurek:	IPA
 	prefix
 kwiatek:	IPA
@@ -228,23 +342,45 @@ kwiecień:	IPA
 	prefix
 łagiew:	IPA
 	prefix
+lantanowiec:	IPA
+	prefix
 lasek:	IPA
+	prefix
+latarniowiec:	IPA
+	prefix
+latawiec:	IPA
+	prefix
+łeb:	IPA
 	prefix
 lejek:	IPA
 	prefix
 lelek:	IPA
 	prefix
+leniwiec:	IPA
+	prefix
 len:	IPA
 	prefix
 łeż:	IPA
 	prefix
+lipiec:	IPA
+	prefix
 listek:	IPA
+	prefix
+lodowiec:	IPA
+	prefix
+łokieć:	IPA
 	prefix
 łosiek:	IPA
 	prefix
+lotniskowiec:	IPA
+	prefix
 lulek:	IPA
 	prefix
+mahoniowiec:	IPA
+	prefix
 majeranek:	IPA
+	prefix
+makowiec:	IPA
 	prefix
 malunek:	IPA
 	prefix
@@ -254,9 +390,21 @@ mamer:	IPA
 	prefix
 marszałek:	IPA
 	prefix
+marzec:	IPA
+	prefix
+masowiec:	IPA
+	prefix
 mebel:	IPA
 	prefix
+mech:	IPA
+	prefix
+mędrzec:	IPA
+	prefix
 mięsień:	IPA
+	prefix
+mieszkaniec:	IPA
+	prefix
+migdałowiec:	IPA
 	prefix
 miłek:	IPA
 	prefix
@@ -278,6 +426,8 @@ mundurek:	IPA
 	prefix
 murek:	IPA
 	prefix
+myśliwiec:	IPA
+	prefix
 nadczłowiek:	IPA
 	prefix
 nadgarstek:	IPA
@@ -294,6 +444,8 @@ napletek:	IPA
 	prefix
 nastolatek:	IPA
 	prefix
+naukowiec:	IPA
+	prefix
 niecierpek:	IPA
 	prefix
 niedopałek:	IPA
@@ -302,7 +454,11 @@ niedźwiadek:	IPA
 	prefix
 nieporządek:	IPA
 	prefix
+nieuk:	IPA
+	prefix
 nikiel:	IPA
+	prefix
+nosorożec:	IPA
 	prefix
 nurek:	IPA
 	prefix
@@ -320,11 +476,15 @@ ogonek:	IPA
 	prefix
 ogórek:	IPA
 	prefix
+ojciec:	IPA
+	prefix
 ołówek:	IPA
 	prefix
 opiłek:	IPA
 	prefix
 opłatek:	IPA
+	prefix
+orzeł:	IPA
 	prefix
 oset:	IPA
 	prefix
@@ -338,15 +498,29 @@ pączek:	IPA
 	prefix
 pajączek:	IPA
 	prefix
+palec:	IPA
+	prefix
 papierek:	IPA
+	prefix
+parowiec:	IPA
+	prefix
+parzydełkowiec:	IPA
 	prefix
 pasek:	IPA
 	prefix
+paznokieć:	IPA
+	prefix
+pechowiec:	IPA
+	prefix
 pępek:	IPA
+	prefix
+pestkowiec:	IPA
 	prefix
 piątek:	IPA
 	prefix
 pień:	IPA
+	prefix
+pierdolec:	IPA
 	prefix
 pierścionek:	IPA
 	prefix
@@ -365,6 +539,10 @@ placek:	IPA
 plaster:	IPA
 	prefix
 płatek:	IPA
+	prefix
+płaziniec:	IPA
+	prefix
+płeć:	IPA
 	prefix
 płetwonurek:	IPA
 	prefix
@@ -396,11 +574,15 @@ policzek:	IPA
 	prefix
 poliester:	IPA
 	prefix
+półpasiec:	IPA
+	prefix
 półwysep:	IPA
 	prefix
 poniedziałek:	IPA
 	prefix
 poranek:	IPA
+	prefix
+portowiec:	IPA
 	prefix
 porządek:	IPA
 	prefix
@@ -409,6 +591,8 @@ poseł:	IPA
 posiłek:	IPA
 	prefix
 pośladek:	IPA
+	prefix
+posłaniec:	IPA
 	prefix
 potomek:	IPA
 	prefix
@@ -423,6 +607,8 @@ prawiczek:	IPA
 prawnuczek:	IPA
 	prefix
 precel:	IPA
+	prefix
+proporzec:	IPA
 	prefix
 proszek:	IPA
 	prefix
@@ -446,6 +632,8 @@ przysłówek:	IPA
 	prefix
 przystanek:	IPA
 	prefix
+pszeniec:	IPA
+	prefix
 ptaszek:	IPA
 	prefix
 pudel:	IPA
@@ -454,9 +642,15 @@ rabunek:	IPA
 	prefix
 rachunek:	IPA
 	prefix
+rajdowiec:	IPA
+	prefix
 rodzynek:	IPA
 	prefix
+różaniec:	IPA
+	prefix
 rozbitek:	IPA
+	prefix
+rożeniec:	IPA
 	prefix
 rozsądek:	IPA
 	prefix
@@ -466,11 +660,17 @@ rumianek:	IPA
 	prefix
 rydel:	IPA
 	prefix
+rylec:	IPA
+	prefix
 rynek:	IPA
 	prefix
 rysunek:	IPA
 	prefix
 rzodkiew:	IPA
+	prefix
+sadziec:	IPA
+	prefix
+samiec:	IPA
 	prefix
 schowek:	IPA
 	prefix
@@ -478,15 +678,33 @@ siarczek:	IPA
 	prefix
 sierpień:	IPA
 	prefix
+siostrzeniec:	IPA
+	prefix
+skąpiec:	IPA
+	prefix
+skarbiec:	IPA
+	prefix
+skazaniec:	IPA
+	prefix
 skowronek:	IPA
+	prefix
+skrótowiec:	IPA
 	prefix
 skrzypek:	IPA
 	prefix
 skutek:	IPA
 	prefix
+ślepiec:	IPA
+	prefix
 słoiczek:	IPA
 	prefix
 słupek:	IPA
+	prefix
+śluzowiec:	IPA
+	prefix
+smalec:	IPA
+	prefix
+śmigłowiec:	IPA
 	prefix
 sopel:	IPA
 	prefix
@@ -496,13 +714,19 @@ spisek:	IPA
 	prefix
 spodek:	IPA
 	prefix
+sportowiec:	IPA
+	prefix
 środek:	IPA
 	prefix
 śródrostek:	IPA
 	prefix
 stągiew:	IPA
 	prefix
+starzec:	IPA
+	prefix
 statek:	IPA
+	prefix
+sterowiec:	IPA
 	prefix
 stoliczek:	IPA
 	prefix
@@ -514,11 +738,15 @@ stożek:	IPA
 	prefix
 stryjek:	IPA
 	prefix
+strzelec:	IPA
+	prefix
 stulatek:	IPA
 	prefix
 styczeń:	IPA
 	prefix
 supeł:	IPA
+	prefix
+surowiec:	IPA
 	prefix
 suseł:	IPA
 	prefix
@@ -531,6 +759,8 @@ sweter:	IPA
 sylwester:	IPA
 	prefix
 szacunek:	IPA
+	prefix
+szaleniec:	IPA
 	prefix
 szczygieł:	IPA
 	prefix
@@ -546,7 +776,15 @@ szpadel:	IPA
 	prefix
 szwagier:	IPA
 	prefix
+szybowiec:	IPA
+	prefix
+taniec:	IPA
+	prefix
+tankowiec:	IPA
+	prefix
 tender:	IPA
+	prefix
+tężec:	IPA
 	prefix
 tlenek:	IPA
 	prefix
@@ -555,6 +793,10 @@ tornister:	IPA
 traganek:	IPA
 	prefix
 truteń:	IPA
+	prefix
+trzonowiec:	IPA
+	prefix
+tulipanowiec:	IPA
 	prefix
 tyłek:	IPA
 	prefix
@@ -572,9 +814,13 @@ wafel:	IPA
 	prefix
 wągier:	IPA
 	prefix
+walec:	IPA
+	prefix
 warunek:	IPA
 	prefix
 wątek:	IPA
+	prefix
+wędrowiec:	IPA
 	prefix
 węgiel:	IPA
 	prefix
@@ -592,13 +838,25 @@ wiaterek:	IPA
 	prefix
 wicher:	IPA
 	prefix
+widelec:	IPA
+	prefix
+wiecheć:	IPA
+	prefix
 wielokropek:	IPA
+	prefix
+wieniec:	IPA
+	prefix
+wierzchowiec:	IPA
 	prefix
 wiesiołek:	IPA
 	prefix
 wieś:	IPA
 	prefix
+wietnamiec:	IPA
+	prefix
 więzień:	IPA
+	prefix
+wieżowiec:	IPA
 	prefix
 wihajster:	IPA
 	prefix
@@ -622,7 +880,15 @@ wtorek:	IPA
 	prefix
 wujek:	IPA
 	prefix
+wybraniec:	IPA
+	prefix
+wycieczkowiec:	IPA
+	prefix
+wygnaniec:	IPA
+	prefix
 wyjątek:	IPA
+	prefix
+wyjec:	IPA
 	prefix
 wypadek:	IPA
 	prefix
@@ -634,13 +900,23 @@ wyżeł:	IPA
 	prefix
 żagiel:	IPA
 	prefix
+żaglowiec:	IPA
+	prefix
 zaimek:	IPA
 	prefix
 zajączek:	IPA
 	prefix
 zalążek:	IPA
 	prefix
+zamachowiec:	IPA
+	prefix
+zaskroniec:	IPA
+	prefix
+zawilec:	IPA
+	prefix
 zegarek:	IPA
+	prefix
+żeniec:	IPA
 	prefix
 zew:	IPA
 	prefix
@@ -664,5 +940,11 @@ ziomek:	IPA
 	prefix
 związek:	IPA
 	prefix
+związkowiec:	IPA
+	prefix
+zybuczkowiec:	IPA
+	prefix
 żydek:	IPA
+	prefix
+żywiec:	IPA
 	prefix
