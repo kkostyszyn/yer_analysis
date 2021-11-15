@@ -62,9 +62,9 @@ def extract_syllable_no_yer(lem: list) -> str:
 	return True
 
 def feature_dictionary(labels: list, values: list) -> dict:
-"""
-Takes the list of labels for features and correlates them with the values for a specific phone.
-"""
+	"""
+	Takes the list of labels for features and correlates them with the values for a specific phone.
+	"""
 	rtn = {}
 	for i in domain(values[1:]):
 		rtn[labels[i]] = values[i]
@@ -399,12 +399,13 @@ def main(load = False):
 			else:
 				bundles[temp] = {inf: ipa}
 
-	#These are exceptional forms, with significantly different forms (czlowiek~ludzi, tydzien~tygodniu).
-	#In the future, have the user upload a list of exceptions to pop from the bundles.
-	try:
-		bundles.pop('tydzień')
-		bundles.pop('człowiek')
-	except: pass
+	#Remove exceptional forms, with significantly different forms (czlowiek~ludzi, tydzien~tygodniu).
+	ex = open("input/exceptions.txt", "r")
+	ex = ex.readlines()
+	for word in ex:
+		ex = re.sub(r"\s", r"", ex)
+		if bundles.get(ex):
+			bundles.pop(ex)
 		
 	yer_found = {}
 	yer_found_par = {}
@@ -449,12 +450,17 @@ def main(load = False):
 	feat = open("input/Features.ascii.tsv", "r")
 	feat = feat.readlines()
 	features = {}
+	feature_columns = {}
 	
 	#Extract possible features from first line
 	#Remove trailing \n
 	feat[0] = (remove_newline(feat[0])).split("\t")
 	
-	for phone in feat[1:]
+	#correlate the feature to the column number for later use 
+	for pos in domain(feat[0].split("\t")):
+		feature_columns[feat[0][pos]] = pos
+		
+	#correlate every feature in the chart with its associated labels 
 	phone_data = phone.split("\t")
 	for f in phone_data[1:]:
 		features[phone_data[0]] = feature_dictionary(feat[0], phone_data)#make this a function that takes the feature labels and the feature values and correlates them 
