@@ -182,7 +182,8 @@ def statistics(d, path, features):
 	"""
 	
 	fle = open(path, "w+")
-	fle.write("LEMMA\tPREFIX\tBEFORE_SEQ\tAFTER_SEQ\tBEFORE_SING\tAFTER_SING\tINFLEC") 
+	fle.write("LEMMA\tPREFIX\tBEFORE_SEQ\tAFTER_SEQ\tBEFORE_SING\tAFTER_SING\tINFLEC")
+	#what other featural information to include? palatals & sonorants primarily
 	
 	env_before = {}
 	immediate_before = {}
@@ -458,21 +459,22 @@ def main(load = False):
 	
 	#correlate the feature to the column number for later use 
 	for pos in domain(feat[0]):
-		feature_columns[pos] = feat[0][pos]
-	
+		if feat[0][pos]:
+			feature_columns[pos] = feat[0][pos]
 	#for every remaining phone in the list, save first element (phone) as the key, with the value
 	#a dictionary that maps each feature to +, -, or 0
 	for phone in feat[1:]:
+		phone = phone.split("\t")
 		vals = {}
 		for pos in domain(phone):
 			#first item in lists is an empty string, which is retained for positional alignment
-			if phone[pos]:
+			if feature_columns.get(pos):
 				vals[feature_columns[pos]] = phone[pos]
 		features[phone[0]] = vals
 		
 	print(features)
 	
-	#before, after, immediate_before, immediate_after, count = statistics(yer_found_par, "data/stats_before_ek.tsv", features)
+	before, after, immediate_before, immediate_after, count = statistics(yer_found_par, "data/stats_before_ek.tsv", features)
 	#save_as_text("data/stats_with_ek_before.txt", before)
 	#save_as_text("data/stats_with_ek_after.txt", after)
 	print("BEFORE:", end="")
