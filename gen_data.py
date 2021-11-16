@@ -403,9 +403,9 @@ def main(load = False):
 	ex = open("input/exceptions.txt", "r")
 	ex = ex.readlines()
 	for word in ex:
-		ex = re.sub(r"\s", r"", ex)
-		if bundles.get(ex):
-			bundles.pop(ex)
+		word = re.sub(r"\s", r"", word)
+		if bundles.get(word):
+			bundles.pop(word)
 		
 	yer_found = {}
 	yer_found_par = {}
@@ -446,7 +446,7 @@ def main(load = False):
 	save_as_text("data/lemmas.txt", yer_found)
 	print(len(yer_found_par))
 	
-	#create a Feature dictionary to feed into statistics, so all stats are written in one fell swoop
+	#create a Feature dictionary to feed into statistics, so all stats are written at once
 	feat = open("input/Features.ascii.tsv", "r")
 	feat = feat.readlines()
 	features = {}
@@ -457,15 +457,22 @@ def main(load = False):
 	feat[0] = (remove_newline(feat[0])).split("\t")
 	
 	#correlate the feature to the column number for later use 
-	for pos in domain(feat[0].split("\t")):
-		feature_columns[feat[0][pos]] = pos
-		
-	#correlate every feature in the chart with its associated labels 
-	phone_data = phone.split("\t")
-	for f in phone_data[1:]:
-		features[phone_data[0]] = feature_dictionary(feat[0], phone_data)#make this a function that takes the feature labels and the feature values and correlates them 
+	for pos in domain(feat[0]):
+		feature_columns[pos] = feat[0][pos]
 	
-	before, after, immediate_before, immediate_after, count = statistics(yer_found_par, "data/stats_before_ek.tsv", features)
+	#for every remaining phone in the list, save first element (phone) as the key, with the value
+	#a dictionary that maps each feature to +, -, or 0
+	for phone in feat[1:]:
+		vals = {}
+		for pos in domain(phone):
+			#first item in lists is an empty string, which is retained for positional alignment
+			if phone[pos]:
+				vals[feature_columns[pos]] = phone[pos]
+		features[phone[0]] = vals
+		
+	print(features)
+	
+	#before, after, immediate_before, immediate_after, count = statistics(yer_found_par, "data/stats_before_ek.tsv", features)
 	#save_as_text("data/stats_with_ek_before.txt", before)
 	#save_as_text("data/stats_with_ek_after.txt", after)
 	print("BEFORE:", end="")
