@@ -56,7 +56,7 @@ def domain(lst):
 	"""
 	return (range(len(lst) - 1))
 
-def extract_syllable_no_yer(lem: list) -> str:
+def extract_syllable_no_yer(form: list) -> str:
 	"""
 	For a word pair with no yer, take the lemma, and go backward finding the last syllable set of CVC.
 	"""
@@ -155,7 +155,7 @@ def save_as_text(save, data):
 		pass		
 	f.close()
 	
-def statistics(d, path, features):
+def statistics(d, path, features, pnt = False):
 	"""
 	!! REWRITE THIS TO USE THE PARADIGM CLASS, and to write to a file in TSV format so values are 
 	still linked 
@@ -168,6 +168,7 @@ def statistics(d, path, features):
 						dictionary - the key is a feature label and its value is the corresponding 
 						feature value for the current phone.
 	path:		the name of the file where statistics will be saved
+	pnt:			Boolean to decide whether to print the help messages
 	---	
 	count:		the number of words considered when building dictionaries 
 	env_after:	a dictionary, where the key is the consonant sequence after the yer and the value 
@@ -183,7 +184,7 @@ def statistics(d, path, features):
 	"""
 	
 	fle = open(path, "w+")
-	first_line = "LEMMA\tPREFIX\tBEFORE_SEQ\tAFTER_SEQ\tBEFORE_SING\tAFTER_SING\tINFLEC\t"
+	first_line = "FORM\tPREFIX\tBEFORE_SEQ\tAFTER_SEQ\tBEFORE_SING\tAFTER_SING\tINFLEC\t"
 	#this is honestly excessive, but i want to keep the features as arbitrary as possible
 	temp_feat = random.choice(list(features.keys()))
 	temp_feat = features[temp_feat]
@@ -198,22 +199,18 @@ def statistics(d, path, features):
 	first_line += "PARADIGM_YER\tFORM_YER\n"
 	fle.write(first_line)
 	
-	env_before = {}
-	immediate_before = {}
-	env_after = {}
-	immediate_after = {}
 	count = 0
 	
 	prefix_align = {}
 	
 	for i in d.keys():
-		print("---")
+		if pnt: print("---")
 		for j in d[i].form_keys():
 			try:
 				
 				#Remember that the items in d[i] are lists, not strings.
 				count += 1
-				print("Processing:", i, j, "<"+str(d[i].f(j)[0]) +">", end="...")
+				if pnt: print("Processing:", i, j, "<"+str(d[i].f(j)[0]) +">", end="...")
 				
 				#Find environment BEFORE yer 
 				try:
@@ -259,41 +256,14 @@ def statistics(d, path, features):
 					
 				fle.write(stats_line + "TRUE\n")
 				#print(stats_line)
-				print("done!")
+				if pnt: print("done!")
 				#After building the base of the stats_line
 			except:
-				print("ERROR ON <", i,">")
+				if pnt: print("ERROR ON <", i,">")
 			
-			
-			"""	###OUTDATED, I'm now printing cons + features to file, so dicts not necessary	
-			#Write a conditional checking if any palatalization occurs in the cluster
-			#Add to env dictionaries 
-			try:
-				env_before[b] += 1
-			except:
-				env_before[b] = 1
-			
-			try:
-				env_after[e] += 1
-			except:
-				env_after[e] = 1
-				
-			#Add to immediate dictionaries
-			try:
-				immediate_before[d[i].pre()[-1]] += 1
-			except:
-				immediate_before[d[i].pre()[-1]] = 1
-				
-			try:
-				immediate_after[temp[0]] += 1
-			except:
-				immediate_after[temp[0]] = 1
-				
-			"""
-	#print("AFFIXES PER WORD:", prefix_align)
 	#Now that I'm printing to a document, it may be unnecessary to return these values
 	#return (env_before, env_after, immediate_before, immediate_after, count)
-	print("Stats for", path, "complete!")
+	if pnt: print("Stats for", path, "complete!")
 	fle.close()
 	
 def strip_text(txt):
@@ -363,13 +333,11 @@ def vowel(ch) -> bool:
 		return True
 	return False 
 	
-def word_boundary(word1: list, word2: list, position: int) -> bool:
+def word_boundary(word: list, position: int) -> bool:
 	"""
 	Given two words, determine if the end word boundary has been reached for either of them.
 	"""
-	if position >= len(word1):
-		return True
-	elif position >= len(word1):
+	if position >= len(word) - 1:
 		return True
 	return False
 	
@@ -453,6 +421,8 @@ def main(load = False):
 		if bundles.get(word):
 			bundles.pop(word)
 		
+	no_yer_count = 0
+		
 	yer_found = {}
 	yer_found_par = {}
 	#For every item in the bundles dictionary, compare the 'lemma' (minus final vowels) to each 
@@ -477,7 +447,6 @@ def main(load = False):
 						
 						yer_found[root] = {'IPA': temp, 'prefix': prefix(temp, ch_pos)}
 
-						
 						#If the paradigm oesn't already exist, add it to the dictionary
 						#In all cases, update to map inflected form to inflectional info 
 						if not yer_found_par.get(root):
@@ -485,13 +454,20 @@ def main(load = False):
 						yer_found_par[root].update(bundles[root][inflected_form], re.sub(r"[,\s]", r"", inflected_form), in_lem)
 
 					#elif we've found the word boundary in either word, store as No Yer 			
-					elif word_boundary(temp, bundles[root][inflected_form], ch_pos):
+					elif word_boundary(bundles[root][inflected_form], ch_pos):
+						no_yer_count += 1
+						print("END: ", bundles[root][inflected_form])
+						extract_syllable_no_yer()
+					elif word_boundary(temp, ch_pos):
+						no_yer_count += 1
+						print("END: LEMMA")
 						extract_syllable_no_yer()
 		except: 
-			print("Translation failure:", root)
+			pass
+			#print("Translation failure:", root)
 						
 	save_as_text("data/lemmas.txt", yer_found)
-	print("Found:", len(yer_found_par))
+	print("Found:", len(yer_found_par), "; No yer:", no_yer_count)
 	
 	#create a Feature dictionary to feed into statistics, so all stats are written at once
 	feat = open("input/Features.ascii.tsv", "r")
