@@ -34,8 +34,15 @@ class Paradigm:
 			s += "\t" + x +" --> " + str(self.forms[x]) + "\n"
 		#s += "\n"
 		return s 
+
+	def f(self, i):
+		return self.forms[i]
+	
+	def form_keys(self):
+		x = self.forms 
+		return x.keys()
 		
-	def lemma(self):
+	def lem(self):
 		return self.lemma 
 		
 	def lem_yer(self):
@@ -46,7 +53,7 @@ class Paradigm:
 		"""
 		return self.lem_yer
 		
-	def prefix(self):
+	def pre(self):
 		return self.prefix
 		
 	def update(self, lem: list, inf: str, has_yer: bool):

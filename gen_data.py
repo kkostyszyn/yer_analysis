@@ -5,6 +5,7 @@ Then, run statistical analyses on all paradigms to find significant features.
 """
 import re
 import sys
+import random
 from paradigm import Paradigm, Features
 from translate_pol import Translate
 
@@ -182,8 +183,17 @@ def statistics(d, path, features):
 	"""
 	
 	fle = open(path, "w+")
-	fle.write("LEMMA\tPREFIX\tBEFORE_SEQ\tAFTER_SEQ\tBEFORE_SING\tAFTER_SING\tINFLEC")
-	#what other featural information to include? palatals & sonorants primarily
+	first_line = "LEMMA\tPREFIX\tBEFORE_SEQ\tAFTER_SEQ\tBEFORE_SING\tAFTER_SING\tINFLEC\t"
+	#this is honestly excessive, but i want to keep the features as arbitrary as possible
+	temp_feat = random.choice(list(features.keys()))
+	temp_feat = features[temp_feat]
+	temp_feat = temp_feat.keys()
+	
+	for f in temp_feat:
+		first_line += "LEFT_" + f.upper() + "\t"
+		first_line += "RIGHT_" + f.upper() + "\t"
+		
+	fle.write(first_line)
 	
 	env_before = {}
 	immediate_before = {}
@@ -194,36 +204,41 @@ def statistics(d, path, features):
 	prefix_align = {}
 	
 	for i in d.keys():
-		for j in d.forms.keys():
-			#Remember that the items in d[i] are lists, not strings.
-			count += 1
-			
-			#Find environment BEFORE yer 
+		for j in d[i].form_keys():
 			try:
-				b = consonant_seq_before(d[i][j].prefix())
-			except:
-				print("Fail consonant_seq_before(",d[i][j].prefix(),") - ",i)
-					
-			#Find environment AFTER yer 
-			#first, remove prefix
-			#then, remove any further vowels
-			### THIS WILL NEED CHANGING, to apply to all forms associated with the lemma
-			temp = suffix(d[i][j].lemma())
-			if temp:
-				e = consonant_seq_after(temp)
-			else:
-				e = ''
 				
-			#should i only add one form to the document?
-			#Determine if yer in lemma vs. yer in inflected form
-			fle.write(d[i][j].lemma() + "\t" + 
-									d[i][j].prefix() + "\t" +
-									b + "\t" +
-									e + "\t" +
-									b[-1] + "\t" + 
-									temp[0] + "\t" +
-									j + "\n") #should be the morphological information, which right now is the key to the Paradigm.forms dictionary
-
+				#Remember that the items in d[i] are lists, not strings.
+				count += 1
+				
+				#Find environment BEFORE yer 
+				try:
+					b = consonant_seq_before(d[i].pre())
+				except:
+					print("Fail consonant_seq_before(",str(d[i].pre()),") - ",i)
+						
+				#Find environment AFTER yer 
+				#first, remove prefix
+				#then, remove any further vowels
+				### THIS WILL NEED CHANGING, to apply to all forms associated with the lemma
+				#temp = suffix(d[i].lemma())
+				temp = suffix(d[i].pre(), d[i].f(j))
+				if temp:
+					e = consonant_seq_after(temp)
+				else:
+					e = ''
+					
+				#should i only add one form to the document?
+				#Determine if yer in lemma vs. yer in inflected form
+				print(str(d[i].lem()) + "\t" + 
+										str(d[i].pre()) + "\t" +
+										b + "\t" +
+										e + "\t" +
+										b[-1] + "\t" + 
+										temp[0] + "\t" +
+										j + "\n") #should be the morphological information, which right now is the key to the Paradigm.forms dictionary
+			except:
+				print(d[i].lem())
+				"""
 			#Write a conditional checking if any palatalization occurs in the cluster
 			#Add to env dictionaries 
 			try:
@@ -238,17 +253,16 @@ def statistics(d, path, features):
 				
 			#Add to immediate dictionaries
 			try:
-				immediate_before[d[i][j].prefix()[-1]] += 1
+				immediate_before[d[i].pre()[-1]] += 1
 			except:
-				immediate_before[d[i][j].prefix()[-1]] = 1
+				immediate_before[d[i].pre()[-1]] = 1
 				
 			try:
 				immediate_after[temp[0]] += 1
 			except:
 				immediate_after[temp[0]] = 1
 				
-			#prefix_align[i] = (b, e)
-		
+			"""
 	#print("AFFIXES PER WORD:", prefix_align)
 	#Now that I'm printing to a document, it may be unnecessary to return these values
 	return (env_before, env_after, immediate_before, immediate_after, count)
@@ -272,17 +286,18 @@ def strip_text(txt):
 	
 	return txt
 
-def suffix(d: dict):
+def suffix(p: str, txt: list):
 	"""
 	When finding the environment after the yer, strip initial vowels. 
 	
-	txt: a dictionary with 'IPA' and 'prefix' as the keys.
+	p:		the prefix preceding the yer
+	txt:	a list of the characters in the word form 
 	"""
 	
 	#First, remove the prefix from the IPA form 
-	print(d)
-	p = d['prefix']
-	txt = d['IPA']
+	#p = d['prefix']
+	txt = txt[0]
+	print(p, txt)
 	
 	while p:
 		p = p[1:]
@@ -447,7 +462,7 @@ def main(load = False):
 			print("Translation failure:", root)
 						
 	save_as_text("data/lemmas.txt", yer_found)
-	print(len(yer_found_par))
+	print("Found:", len(yer_found_par))
 	
 	#create a Feature dictionary to feed into statistics, so all stats are written at once
 	feat = open("input/Features.ascii.tsv", "r")
@@ -473,9 +488,7 @@ def main(load = False):
 			if feature_columns.get(pos):
 				vals[feature_columns[pos]] = phone[pos]
 		features[phone[0]] = vals
-		
-	print(features)
-	
+			
 	before, after, immediate_before, immediate_after, count = statistics(yer_found_par, "data/stats_before_ek.tsv", features)
 	#save_as_text("data/stats_with_ek_before.txt", before)
 	#save_as_text("data/stats_with_ek_after.txt", after)
