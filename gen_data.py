@@ -227,8 +227,8 @@ def statistics(d, path, features):
 				else:
 					e = ''
 					
-				#should i only add one form to the document?
-				#Determine if yer in lemma vs. yer in inflected form
+				#Update this so it's one line with the environmental info, plus the features
+				#Then, writ that variabl to file.
 				print(str(d[i].lem()) + "\t" + 
 										str(d[i].pre()) + "\t" +
 										b + "\t" +
@@ -238,7 +238,7 @@ def statistics(d, path, features):
 										j + "\n") #should be the morphological information, which right now is the key to the Paradigm.forms dictionary
 			except:
 				print(d[i].lem())
-				"""
+			"""	###OUTDATED, I'm now printing cons + features to file, so dicts not necessary	
 			#Write a conditional checking if any palatalization occurs in the cluster
 			#Add to env dictionaries 
 			try:
