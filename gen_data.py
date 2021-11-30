@@ -184,7 +184,8 @@ def statistics(d, path, features, pnt = False):
 	"""
 	
 	fle = open(path, "w+")
-	first_line = "FORM\tPREFIX\tBEFORE_SEQ\tAFTER_SEQ\tBEFORE_SING\tAFTER_SING\tINFLEC\t"
+	#Split inflectional info on ; ? 
+	first_line = "FORM\tPREFIX\tINFLECT\tBEFORE_SEQ\tAFTER_SEQ\tBEFORE_SING\tAFTER_SING\tINFLEC\t"
 	#this is honestly excessive, but i want to keep the features as arbitrary as possible
 	temp_feat = random.choice(list(features.keys()))
 	temp_feat = features[temp_feat]
@@ -200,9 +201,7 @@ def statistics(d, path, features, pnt = False):
 	fle.write(first_line)
 	
 	count = 0
-	
-	prefix_align = {}
-	
+		
 	for i in d.keys():
 		if pnt: print("---")
 		for j in d[i].form_keys():
@@ -428,6 +427,7 @@ def main(load = False):
 	#For every item in the bundles dictionary, compare the 'lemma' (minus final vowels) to each 
 	#root and find yer environment 
 	for root in bundles.keys():
+		#found_yer boolean?
 		try:
 			temp = root_without_final_vowels(tr.t(root).split())
 			
@@ -454,17 +454,19 @@ def main(load = False):
 						yer_found_par[root].update(bundles[root][inflected_form], re.sub(r"[,\s]", r"", inflected_form), in_lem)
 
 					#elif we've found the word boundary in either word, store as No Yer 			
+					
 					elif word_boundary(bundles[root][inflected_form], ch_pos) and not word_boundary(temp, ch_pos):
 						no_yer_count += 1
 						print("END: ", bundles[root][inflected_form])
-						extract_syllable_no_yer()
+						#extract_syllable_no_yer()
 					elif word_boundary(temp, ch_pos):
 						no_yer_count += 1
 						print("END: LEMMA")
-						extract_syllable_no_yer()
+						#extract_syllable_no_yer()
+					
 		except: 
-			pass
-			#print("Translation failure:", root)
+			#pass
+			print("Translation failure:", root)
 						
 	save_as_text("data/lemmas.txt", yer_found)
 	print("Found:", len(yer_found_par), "; No yer:", no_yer_count)

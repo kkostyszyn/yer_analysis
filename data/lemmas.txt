@@ -428,8 +428,6 @@ murek:	IPA
 	prefix
 myśliwiec:	IPA
 	prefix
-nadczłowiek:	IPA
-	prefix
 nadgarstek:	IPA
 	prefix
 nagietek:	IPA
