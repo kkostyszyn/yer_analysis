@@ -427,11 +427,13 @@ def main(load = False):
 	#For every item in the bundles dictionary, compare the 'lemma' (minus final vowels) to each 
 	#root and find yer environment 
 	for root in bundles.keys():
+		#	READ THIS 
 		#found_yer boolean?
 		try:
 			temp = root_without_final_vowels(tr.t(root).split())
 			
 			for inflected_form in bundles[root]:
+				#fix this i'm bad
 				for ch_pos in domain(temp):
 					if vowel(temp[ch_pos]) != vowel(bundles[root][inflected_form][ch_pos]):
 						#if, for any consonant in one form, the corresponding character in the 
