@@ -224,6 +224,7 @@ def statistics(d, path, features):
 									temp[0] + "\t" +
 									j + "\n") #should be the morphological information, which right now is the key to the Paradigm.forms dictionary
 
+			#Write a conditional checking if any palatalization occurs in the cluster
 			#Add to env dictionaries 
 			try:
 				env_before[b] += 1
@@ -431,6 +432,7 @@ def main(load = False):
 							in_lem = True 
 						
 						yer_found[root] = {'IPA': temp, 'prefix': prefix(temp, ch_pos)}
+
 						
 						#If the paradigm oesn't already exist, add it to the dictionary
 						#In all cases, update to map inflected form to inflectional info 
