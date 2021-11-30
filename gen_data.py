@@ -454,7 +454,7 @@ def main(load = False):
 						yer_found_par[root].update(bundles[root][inflected_form], re.sub(r"[,\s]", r"", inflected_form), in_lem)
 
 					#elif we've found the word boundary in either word, store as No Yer 			
-					elif word_boundary(bundles[root][inflected_form], ch_pos):
+					elif word_boundary(bundles[root][inflected_form], ch_pos) and not word_boundary(temp, ch_pos):
 						no_yer_count += 1
 						print("END: ", bundles[root][inflected_form])
 						extract_syllable_no_yer()
