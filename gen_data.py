@@ -189,10 +189,13 @@ def statistics(d, path, features):
 	temp_feat = features[temp_feat]
 	temp_feat = temp_feat.keys()
 	
+	#Cluster before_ and after_ segments together
 	for f in temp_feat:
 		first_line += "LEFT_" + f.upper() + "\t"
+	for f in temp_feat:
 		first_line += "RIGHT_" + f.upper() + "\t"
 		
+	first_line += "PARADIGM_YER\tFORM_YER\n"
 	fle.write(first_line)
 	
 	env_before = {}
@@ -204,15 +207,19 @@ def statistics(d, path, features):
 	prefix_align = {}
 	
 	for i in d.keys():
+		print("---")
 		for j in d[i].form_keys():
 			try:
 				
 				#Remember that the items in d[i] are lists, not strings.
 				count += 1
+				print("Processing:", i, j, "<"+str(d[i].f(j)[0]) +">", end="...")
 				
 				#Find environment BEFORE yer 
 				try:
 					b = consonant_seq_before(d[i].pre())
+					if b == 'ʲ':
+						print("Palatalized")
 				except:
 					print("Fail consonant_seq_before(",str(d[i].pre()),") - ",i)
 						
@@ -228,16 +235,36 @@ def statistics(d, path, features):
 					e = ''
 					
 				#Update this so it's one line with the environmental info, plus the features
-				#Then, writ that variabl to file.
-				print(str(d[i].lem()) + "\t" + 
+				#Then, write that variable to file.
+				#Lemma - prefix - before_seq - after_seq - before_seg - after_seg - morph - feats
+				it = [str(d[i].f(j)[0]), str(d[i].pre()), j, b, e, b[-1], temp[0]]
+				stats_line = ''
+				#Make it a loop to improve readability
+				for e in it:
+					stats_line += e + "\t"
+				"""
+				stats_line = str(d[i].lem()) + "\t" + 
 										str(d[i].pre()) + "\t" +
+										j + "\t" +
 										b + "\t" +
 										e + "\t" +
 										b[-1] + "\t" + 
-										temp[0] + "\t" +
-										j + "\n") #should be the morphological information, which right now is the key to the Paradigm.forms dictionary
+										temp[0] + "\t"
+				"""			
+				#then, for each feature for the before_seg and after_seg, add +/-
+				for f in features[b[-1]].keys():
+					stats_line = stats_line + features[b[-1]].get(f, "") + "\t"
+				for f in features[e].keys():
+					stats_line = stats_line + features[e].get(f, "") + "\t"
+					
+				fle.write(stats_line + "TRUE\n")
+				#print(stats_line)
+				print("done!")
+				#After building the base of the stats_line
 			except:
-				print(d[i].lem())
+				print("ERROR ON <", i,">")
+			
+			
 			"""	###OUTDATED, I'm now printing cons + features to file, so dicts not necessary	
 			#Write a conditional checking if any palatalization occurs in the cluster
 			#Add to env dictionaries 
@@ -265,7 +292,9 @@ def statistics(d, path, features):
 			"""
 	#print("AFFIXES PER WORD:", prefix_align)
 	#Now that I'm printing to a document, it may be unnecessary to return these values
-	return (env_before, env_after, immediate_before, immediate_after, count)
+	#return (env_before, env_after, immediate_before, immediate_after, count)
+	print("Stats for", path, "complete!")
+	fle.close()
 	
 def strip_text(txt):
 	"""
@@ -297,7 +326,7 @@ def suffix(p: str, txt: list):
 	#First, remove the prefix from the IPA form 
 	#p = d['prefix']
 	txt = txt[0]
-	print(p, txt)
+	#print(p, txt)
 	
 	while p:
 		p = p[1:]
@@ -489,18 +518,9 @@ def main(load = False):
 				vals[feature_columns[pos]] = phone[pos]
 		features[phone[0]] = vals
 			
-	before, after, immediate_before, immediate_after, count = statistics(yer_found_par, "data/stats_before_ek.tsv", features)
+	statistics(yer_found_par, "data/stats_before_ek.tsv", features)
 	#save_as_text("data/stats_with_ek_before.txt", before)
 	#save_as_text("data/stats_with_ek_after.txt", after)
-	print("BEFORE:", end="")
-	print(before)
-	print("AFTER:", end="")
-	print(after)
-	print("IMMEDIATE BEFORE:", end="")
-	print(immediate_before)
-	print("IMMEDIATE AFTER:", end="")
-	print(immediate_after)
-	print(count)
 	
 	
 	
