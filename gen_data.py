@@ -72,9 +72,20 @@ def feature_dictionary(labels: list, values: list) -> dict:
 	return rtn 
 
 def no_yer_statistics(d, path, features, pnt = False):
-		"""
-		A simplified version of the statistics() function.
-		"""
+	"""
+	A simplified version of the statistics() function.
+	"""
+	
+	fle = open(path, "a")
+	#Split inflectional info on ; ? 
+	first_line = "FORM\tPREFIX\tINFLECT\tBEFORE_SEQ\tAFTER_SEQ\tBEFORE_SING\tAFTER_SING\tINFLEC\t"
+	#this is honestly excessive, but i want to keep the features as arbitrary as possible
+	temp_feat = random.choice(list(features.keys()))
+	temp_feat = features[temp_feat]
+	temp_feat = temp_feat.keys()
+	
+	return True 
+		
 def prefix(st: str, pos: int):
 	"""
 	Shortcut to return a substring, sliced up to an excluding a certain position.
@@ -242,15 +253,7 @@ def statistics(d, path, features, pnt = False):
 				#Make it a loop to improve readability
 				for e in it:
 					stats_line += e + "\t"
-				"""
-				stats_line = str(d[i].lem()) + "\t" + 
-										str(d[i].pre()) + "\t" +
-										j + "\t" +
-										b + "\t" +
-										e + "\t" +
-										b[-1] + "\t" + 
-										temp[0] + "\t"
-				"""			
+
 				#then, for each feature for the before_seg and after_seg, add +/-
 				for f in features[b[-1]].keys():
 					stats_line = stats_line + features[b[-1]].get(f, "") + "\t"
@@ -439,6 +442,8 @@ def main(load = False):
 						#if, for any consonant in one form, the corresponding character in the 
 						#other form is a vowel (or vice versa) - log this as the prefix, marking a yer.
 						
+						###EDIT THIS AND BELOW to distinguish between word with yer & 
+						###word without yer in paradigm with yer 
 						#ONLY look in the 'root'
 						if vowel(temp[ch_pos]):
 							pre = prefix(temp, ch_pos)
@@ -454,7 +459,9 @@ def main(load = False):
 						if not yer_found_par.get(root):
 							yer_found_par[root] = Paradigm(root, yer_found[root]['prefix'])
 						yer_found_par[root].update(bundles[root][inflected_form], re.sub(r"[,\s]", r"", inflected_form), in_lem)
-				
+				if yer_bool:
+					#Store entire paradigm as having a yer.
+					
 				if not yer_bool:
 					#If there is no yer found, will write the items to a list to mark as yer_free
 					#Move this back so it only runs after a paradigm is deemed to have no yer, but 
@@ -497,9 +504,9 @@ def main(load = False):
 		features[phone[0]] = vals
 			
 	statistics(yer_found_par, "data/stats_before_ek.tsv", features)
-	#save_as_text("data/stats_with_ek_before.txt", before)
-	#save_as_text("data/stats_with_ek_after.txt", after)
+	#repeat stats on non-yers words, appending to same path
 	
+	#Remove ek and repeat 
 	
 	
 	#repeat above without diminutives
