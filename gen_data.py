@@ -70,7 +70,11 @@ def feature_dictionary(labels: list, values: list) -> dict:
 	for i in domain(values[1:]):
 		rtn[labels[i]] = values[i]
 	return rtn 
-	
+
+def no_yer_statistics(d, path, features, pnt = False):
+		"""
+		A simplified version of the statistics() function.
+		"""
 def prefix(st: str, pos: int):
 	"""
 	Shortcut to return a substring, sliced up to an excluding a certain position.
@@ -332,14 +336,6 @@ def vowel(ch) -> bool:
 		return True
 	return False 
 	
-def word_boundary(word: list, position: int) -> bool:
-	"""
-	Given two words, determine if the end word boundary has been reached for either of them.
-	"""
-	if position >= len(word) - 1:
-		return True
-	return False
-	
 def main(load = False):
 	"""
 	Based on previous Pynini script, do POL-->IPA transcription.
@@ -424,6 +420,7 @@ def main(load = False):
 		
 	yer_found = {}
 	yer_found_par = {}
+	yer_not_found = []
 	#For every item in the bundles dictionary, compare the 'lemma' (minus final vowels) to each 
 	#root and find yer environment 
 	for root in bundles.keys():
@@ -433,9 +430,12 @@ def main(load = False):
 			temp = root_without_final_vowels(tr.t(root).split())
 			
 			for inflected_form in bundles[root]:
+				yer_bool = False 
+
 				#fix this i'm bad
 				for ch_pos in domain(temp):
 					if vowel(temp[ch_pos]) != vowel(bundles[root][inflected_form][ch_pos]):
+						yer_bool = True
 						#if, for any consonant in one form, the corresponding character in the 
 						#other form is a vowel (or vice versa) - log this as the prefix, marking a yer.
 						
@@ -454,22 +454,20 @@ def main(load = False):
 						if not yer_found_par.get(root):
 							yer_found_par[root] = Paradigm(root, yer_found[root]['prefix'])
 						yer_found_par[root].update(bundles[root][inflected_form], re.sub(r"[,\s]", r"", inflected_form), in_lem)
-
-					#elif we've found the word boundary in either word, store as No Yer 			
-					
-					elif word_boundary(bundles[root][inflected_form], ch_pos) and not word_boundary(temp, ch_pos):
-						no_yer_count += 1
-						print("END: ", bundles[root][inflected_form])
-						#extract_syllable_no_yer()
-					elif word_boundary(temp, ch_pos):
-						no_yer_count += 1
-						print("END: LEMMA")
-						#extract_syllable_no_yer()
-					
+				
+				if not yer_bool:
+					#If there is no yer found, will write the items to a list to mark as yer_free
+					#Move this back so it only runs after a paradigm is deemed to have no yer, but 
+					#it adds all the forms to the list.
+					no_yer_count +=1
+					try:
+						yer_not_found.append((bundles[root].get(inflected_form), inflected_form))
+					except:
+						print(root, inflected_form)
 		except: 
-			#pass
 			print("Translation failure:", root)
-						
+		
+	print(yer_not_found)					
 	save_as_text("data/lemmas.txt", yer_found)
 	print("Found:", len(yer_found_par), "; No yer:", no_yer_count)
 	
