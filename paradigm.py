@@ -21,6 +21,7 @@ class Paradigm:
 		"""
 		self.lemma = lemma
 		self.prefix = prefix
+		self.global_yer = False
 		
 		self.forms = {}
 		
@@ -36,7 +37,10 @@ class Paradigm:
 		return s 
 
 	def f(self, i):
-		return self.forms[i]
+		if (self.forms).get(i):
+			return self.forms[i]
+		else:
+			return False
 	
 	def form_keys(self):
 		x = self.forms 
@@ -52,44 +56,18 @@ class Paradigm:
 		Main should be updated so that if a Paradigm item exists and the yer is in the lemma, saves the inflectional information of info that FAILS the vowel check. 
 		"""
 		return self.lem_yer
+
+	def ind_yer(self, inf):
+		"""
+		For a specific form, returns the tuple of inflected form and yer presence (bool).
+		"""
+		return self.forms[inf]
 		
 	def pre(self):
 		return self.prefix
 		
 	def update(self, lem: list, inf: str, has_yer: bool):
 		self.forms[inf] = (lem, has_yer)
-
-class Features:
-	"""
-		Given a word, make note of the 
-		feature map, including phonological features, inflectional 
-		information, and syllable information.
-	"""
-	def __init__(self, wrd: str, prefix: str, yer:bool, lemma=False) -> None:
-		"""
-		Given the word, its prefix (to mark where in the word the yer 
-		occurs), log morphophonological features.
-		"""
 		
-		#Morphology
-		self.gender = wrd["gender"]
-		self.case = wrd["case"]
-		
-		#Syllables
-		self.syllable = count_syl(prefix)
-		
-		#Phonology
-		
-		return True
-
-	def __repr__(self):
-		return True
-		
-	def __str__(self):
-		return True
-		
-	def count_syl(prefix: str) -> int:
-		"""
-		Counts the vowel/consonant alternations to determine number of syllables in prefix.
-		"""
-		return True
+	def update_all_yers(self) -> None:
+		self.global_yer = True

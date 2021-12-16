@@ -6,9 +6,16 @@ Then, run statistical analyses on all paradigms to find significant features.
 import re
 import sys
 import random
-from paradigm import Paradigm, Features
+from paradigm import Paradigm
 from translate_pol import Translate
 
+def concatenate(lst: list) -> str:
+	out = ''
+	for item in lst:
+		if isinstance(item, str): out += item
+		else: return False 
+
+	return out
 def consonant_seq_before(txt: list) -> str:
 	"""
 	Given some string, finds all consonants at the end of the string (until interrupted by vowel).
@@ -19,8 +26,11 @@ def consonant_seq_before(txt: list) -> str:
 	
 	#Base case - if a single phone, return either an empty list 
 	if len(txt) <= 1:
-		if not vowel(txt[0]):
-			return txt[0]
+		try:
+			if not vowel(txt[0]):
+				return txt[0]
+		except:
+			pass
 		return ''
 		
 	#Otherwise - Check if current last phone is a consonant, then repeat on next 
@@ -200,7 +210,7 @@ def statistics(d, path, features, pnt = False):
 	
 	fle = open(path, "w+")
 	#Split inflectional info on ; ? 
-	first_line = "FORM\tPREFIX\tINFLECT\tBEFORE_SEQ\tAFTER_SEQ\tBEFORE_SING\tAFTER_SING\tINFLEC\t"
+	first_line = "FORM,PREFIX,CASE,PLURAL,BEFORE_SEQ,AFTER_SEQ,BEFORE_SING,AFTER_SING,"
 	#this is honestly excessive, but i want to keep the features as arbitrary as possible
 	temp_feat = random.choice(list(features.keys()))
 	temp_feat = features[temp_feat]
@@ -208,11 +218,11 @@ def statistics(d, path, features, pnt = False):
 	
 	#Cluster before_ and after_ segments together
 	for f in temp_feat:
-		first_line += "LEFT_" + f.upper() + "\t"
+		first_line += "LEFT_" + f.upper() + ","
 	for f in temp_feat:
-		first_line += "RIGHT_" + f.upper() + "\t"
+		first_line += "RIGHT_" + f.upper() + ","
 		
-	first_line += "PARADIGM_YER\tFORM_YER\n"
+	first_line += "PARADIGM_YER,FORM_YER\n"
 	fle.write(first_line)
 	
 	count = 0
@@ -244,28 +254,125 @@ def statistics(d, path, features, pnt = False):
 					e = consonant_seq_after(temp)
 				else:
 					e = ''
+
+				#Break j (morphological inflection) along semicolon, and write 1st (case) and 2nd (plural) to line
+				inflect_info = re.findall(r"\w+", j)
 					
 				#Update this so it's one line with the environmental info, plus the features
 				#Then, write that variable to file.
+				
 				#Lemma - prefix - before_seq - after_seq - before_seg - after_seg - morph - feats
-				it = [str(d[i].f(j)[0]), str(d[i].pre()), j, b, e, b[-1], temp[0]]
+				it = [concatenate(d[i].f(j)[0]), concatenate(d[i].pre()), inflect_info[1], inflect_info[2], b, e, b[-1], temp[0]]
 				stats_line = ''
 				#Make it a loop to improve readability
 				for e in it:
-					stats_line += e + "\t"
+					stats_line += e + ","
 
 				#then, for each feature for the before_seg and after_seg, add +/-
 				for f in features[b[-1]].keys():
-					stats_line = stats_line + features[b[-1]].get(f, "") + "\t"
+					stats_line = stats_line + features[b[-1]].get(f, "") + ","
 				for f in features[e].keys():
-					stats_line = stats_line + features[e].get(f, "") + "\t"
+					stats_line = stats_line + features[e].get(f, "") + ","
 					
-				fle.write(stats_line + "TRUE\n")
+				if d[i].ind_yer(j)[1]:
+					form_yer = "TRUE"
+				else:
+					form_yer = "FALSE"
+				#Then, check for global yer
+				fle.write(stats_line + "TRUE," + form_yer + "\n")
 				#print(stats_line)
 				if pnt: print("done!")
 				#After building the base of the stats_line
 			except:
 				if pnt: print("ERROR ON <", i,">")
+			
+	#Now that I'm printing to a document, it may be unnecessary to return these values
+	#return (env_before, env_after, immediate_before, immediate_after, count)
+	if pnt: print("Stats for", path, "complete!")
+	fle.close()
+
+def statistics_no_yer(d, path, features, pnt = False):
+	"""
+	Like the previous statistics() function, except for words with no yer present, so some generalizations are made.
+
+	d:			list of words where yer was not found, where d: (inflected form, inflectional info)
+	path:		file path for saving data
+	features:	dictionary of featural information 
+	"""
+	fle = open(path, "a+")
+	#Split inflectional info on ; ? 
+	first_line = "FORM,PREFIX,CASE,PLURAL,BEFORE_SEQ,AFTER_SEQ,BEFORE_SING,AFTER_SING,"
+	#this is honestly excessive, but i want to keep the features as arbitrary as possible
+	temp_feat = random.choice(list(features.keys()))
+	temp_feat = features[temp_feat]
+	temp_feat = temp_feat.keys()
+	
+	#Cluster before_ and after_ segments together
+	for f in temp_feat:
+		first_line += "LEFT_" + f.upper() + ","
+	for f in temp_feat:
+		first_line += "RIGHT_" + f.upper() + ","
+		
+	first_line += "PARADIGM_YER,FORM_YER\n"
+	fle.write(first_line)
+
+	count = 0
+		
+	for i in d:
+		if pnt: print("---")
+
+		count += 1
+		if pnt: print("Processing:", i, "<"+str(d[1]) + ">", end="...")
+		
+		
+		temp_root = root_without_final_vowels(i[0])
+		#Find next consonant, then replicate prefix function (since no positional marker)
+		temp_prefix = temp_root
+		temp_suffix = ''
+		prefix_found = False
+		vowel_found = False
+
+		while not prefix_found:
+			if not vowel_found:
+				temp_suffix = temp_prefix[-1] + temp_suffix
+				temp_prefix = temp_prefix[:-1]
+				try:
+					if vowel(temp_prefix[-1]):
+						vowel_found = True
+				except:
+					prefix_found = True
+			else:
+				temp_prefix = temp_prefix[:-1]
+				try:
+					if len(temp_prefix) > 1:
+						if not vowel(temp_prefix[-1]):
+							prefix_found = True
+					else:
+						prefix_found = True
+				except:
+					prefix_found = True
+
+		inflect_info = re.findall(r"\w+", i[1])
+
+		#Lemma - prefix - case - plural - before_seq - after_seq - before_sing - after_sing
+		if len(temp_prefix) > 1: prefix_sing = temp_prefix[-1]
+		elif len(temp_prefix) == 0: prefix_sing = ''
+		it = [concatenate(temp_root), concatenate(temp_prefix), inflect_info[1], inflect_info[2], consonant_seq_before(temp_prefix), temp_suffix, prefix_sing, temp_suffix[0]]
+		print(it)
+		stats_line = ''
+		#Make it a loop to improve readability
+		for e in it:
+			stats_line += e + ","
+
+		#then, for each feature for the before_seg and after_seg, add +/-
+		if features.get(prefix_sing):
+			for f in features[prefix_sing].keys():
+				stats_line = stats_line + features[prefix_sing].get(f, "") + ","
+		if features.get(temp_suffix[0]):
+			for f in features[temp_suffix[0]].keys():
+				stats_line = stats_line + features[temp_suffix[0]].get(f, "") + ","
+
+		fle.write(stats_line + "FALSE,FALSE\n")
 			
 	#Now that I'm printing to a document, it may be unnecessary to return these values
 	#return (env_before, env_after, immediate_before, immediate_after, count)
@@ -427,30 +534,18 @@ def main(load = False):
 	#For every item in the bundles dictionary, compare the 'lemma' (minus final vowels) to each 
 	#root and find yer environment 
 	for root in bundles.keys():
-		#	READ THIS 
-		#found_yer boolean?
+
 		try:
 			temp = root_without_final_vowels(tr.t(root).split())
 			
 			for inflected_form in bundles[root]:
 				yer_bool = False 
 
-				#fix this i'm bad
 				for ch_pos in domain(temp):
 					if vowel(temp[ch_pos]) != vowel(bundles[root][inflected_form][ch_pos]):
 						yer_bool = True
 						#if, for any consonant in one form, the corresponding character in the 
 						#other form is a vowel (or vice versa) - log this as the prefix, marking a yer.
-						
-						###EDIT THIS AND BELOW to distinguish between word with yer & 
-						###word without yer in paradigm with yer 
-						#ONLY look in the 'root'
-						if vowel(temp[ch_pos]):
-							pre = prefix(temp, ch_pos)
-							in_lem = False
-						else: 	
-							pre = prefix(bundles[root][inflected_form], ch_pos)
-							in_lem = True 
 						
 						yer_found[root] = {'IPA': temp, 'prefix': prefix(temp, ch_pos)}
 
@@ -458,9 +553,7 @@ def main(load = False):
 						#In all cases, update to map inflected form to inflectional info 
 						if not yer_found_par.get(root):
 							yer_found_par[root] = Paradigm(root, yer_found[root]['prefix'])
-						yer_found_par[root].update(bundles[root][inflected_form], re.sub(r"[,\s]", r"", inflected_form), in_lem)
-				if yer_bool:
-					#Store entire paradigm as having a yer.
+						yer_found_par[root].update(bundles[root][inflected_form], re.sub(r"[,\s]", r"", inflected_form), False)
 					
 				if not yer_bool:
 					#If there is no yer found, will write the items to a list to mark as yer_free
@@ -470,11 +563,20 @@ def main(load = False):
 					try:
 						yer_not_found.append((bundles[root].get(inflected_form), inflected_form))
 					except:
-						print(root, inflected_form)
+						print("No yer found in:", root, inflected_form)
+				else: 
+					#Make sure all items in paradigm are marked for a global yer
+					yer_found_par[root].update_all_yers()
+
+					#Add forms that have no vowel-based differences - yer found globally, but no difference from lemma here
+					for inflected_form in bundles[root]:
+						if not yer_found_par[root].f(inflected_form):
+							yer_found_par[root].update(bundles[root][inflected_form], re.sub(r"[,\s]", r"", inflected_form), True)
+
 		except: 
 			print("Translation failure:", root)
+			pass
 		
-	print(yer_not_found)					
 	save_as_text("data/lemmas.txt", yer_found)
 	print("Found:", len(yer_found_par), "; No yer:", no_yer_count)
 	
@@ -503,26 +605,17 @@ def main(load = False):
 				vals[feature_columns[pos]] = phone[pos]
 		features[phone[0]] = vals
 			
-	statistics(yer_found_par, "data/stats_before_ek.tsv", features)
-	#repeat stats on non-yers words, appending to same path
-	
-	#Remove ek and repeat 
-	
+	statistics(yer_found_par, "data/stats_before_ek.csv", features)
+	statistics_no_yer(yer_not_found, "data/stats_before_ek.csv", features)
+	#repeat stats on non-yers words, appending to same path	
 	
 	#repeat above without diminutives
-	"""
-	#yer_found = remove_items(yer_found, "eczek")
-	yer_found = remove_items(yer_found, "ek")
-	save_as_text("data/lemmas_minus_ek.txt", yer_found)
-	before, after, count  = statistics(yer_found)
-	#save_as_text("data/stats_without_ek_before.txt", before)
-	#save_as_text("data/stats_without_ek_after.txt", after)
-	print("BEFORE:")
-	print(before)
-	print("AFTER:")
-	print(after)
-	print(count)
-	"""
+	
+	yer_found = remove_items(yer_found, "eczek", True)
+	yer_found = remove_items(yer_found, "ek", True)
+
+	print(yer_found)
+	
 	
 	
 	

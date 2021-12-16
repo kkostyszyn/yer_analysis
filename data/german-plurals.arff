@@ -1,0 +1,87 @@
+% This is abiut German plurals
+@relation german_plurals
+
+@attribute word string
+@attribute finalsyll {schwa, closedschwa, vowel, other}
+@attribute finallett string
+@attribute gender {masc, fem, ntr}
+@attribute alveolar {T,F}
+@attribute class {none, n, e, er, s}
+
+
+@data
+% none
+Fenster,closedschwa,"t",ntr,T,none
+Garten,closedschwa,"t",masc,T,none
+Vogel,closedschwa,"g",masc,F,none
+Männchen,closedschwa,"n",ntr,T,none
+Vater,closedschwa,"t",masc,T,none
+Mutter,closedschwa,"t",fem,T,none
+Fehler,closedschwa,"r",masc,F,none
+Apfel,closedschwa,"l",masc,T,none
+Mädchen,closedschwa,"d",ntr,T,none
+Unternehmen,closedschwa,"m",ntr,F,none
+Männlein,closedschwa,"n",ntr,T,none
+Zeichen,closedschwa,"ch",ntr,F,none
+Leben,closedschwa,"b",ntr,F,none
+% e
+Tisch,other,"sch",masc,F,e
+Kuh,other,"u",fem,F,e
+Stadt,other,"t",fem,T,e
+Hand,other,"d",fem,T,e
+Nacht,other,"t",fem,T,e
+Gedicht,other,"t",ntr,T,e
+Laus,other,"s",fem,T,e
+Ball,other,"l",masc,T,e
+Blick,other,"k",masc,F,e
+Kopf,other,"pf",masc,F,e
+Boot,other,"t",ntr,T,e
+Jahr,other,"r",ntr,F,e
+Prozent,other,"t",ntr,T,e
+Tag,other,"g",masc,F,e
+Tisch,other,"sch",masc,F,e
+Telefon,other,"n",ntr,T,e
+% n
+Frage,schwa,"g",fem,F,n
+Zeit,other,"t",fem,T,n
+Tür,other,"r",fem,F,n
+Uhr,other,"r",fem,F,n
+Stimme,schwa,"m",fem,F,n
+Woche,schwa,"ch",fem,F,n
+Ohr,other,"r",ntr,F,n
+Student,other,"t",masc,T,n
+Herr,other,"r",masc,F,n
+Junge,schwa,"g",masc,F,n
+Mensch,other,"sch",masc,F,n
+Auge,schwa,"g",ntr,F,n
+Ende,schwa,"d",ntr,F,n
+Löwe,schwa,"w",masc,F,n
+Bett,other,"t",ntr,T,n
+Idee,other,"e",fem,F,n
+Stimme,schwa,"m",fem,F,n
+Frau,other,"au",fem,F,n
+Student,other,"t",masc,T,n
+Straße,schwa,"s",fem,F,n
+%er
+Bild,other,"d",ntr,T,er
+Mann,other,"n",masc,F,er
+Buch,other,"ch",ntr,F,er
+Kind,other,"d",ntr,T,er
+Land,other,"d",ntr,T,er
+Wort,other,"t",ntr,T,er
+Haus,other,"s",ntr,T,er
+Wald,other,"d",masc,T,er
+Kind,other,"d",ntr,T,er
+Licht,other,"t",ntr,T,er
+Gesicht,other,"t",ntr,T,er
+% s
+Oma,vowel,"a",fem,F,s
+Opa,vowel,"a",masc,F,s
+Euro,vowel,"o",masc,F,s
+Foto,vowel,"o",ntr,F,s
+Kino,vowel,"o",ntr,F,s
+Sofa,vowel,"a",ntr,F,s
+Taxi,vowel,"i",ntr,F,s
+
+
+
