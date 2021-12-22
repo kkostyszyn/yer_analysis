@@ -282,10 +282,31 @@ def statistics(d, path, features, pnt = False):
 
 				#then, for each feature for the before_seg and after_seg, add +/-
 				for f in features[b[-1]].keys():
-					stats_line = stats_line + features[b[-1]].get(f, "") + ","
-				for f in features[e].keys():
-					stats_line = stats_line + features[e].get(f, "") + ","
+					#stats_line = stats_line + features[b[-1]].get(f, "") + ","
+					if features.get(b[-1]):
+						stats_line = stats_line + features[b[-1]].get(f, "PREFIX_FAILED") + ","
+					elif 'ʲ' in b[-1]:
+						tmp_p = re.sub(r'ʲ', r'', b[-1])
+						if features.get(tmp_p):
+							stats_line = stats_line + features[tmp_p].get(f, "PREFIX_FAILED") + ","
+							#set markert for palatal here
+					elif not b[-1]:
+						#If prefix is empty for some reason:
+						stats_line = stats_line + features['#'].get(f, "") + ","
 					
+				for f in features[e].keys():
+					#stats_line = stats_line + features[e].get(f, "") + ","
+					if features.get(e):
+						stats_line = stats_line + features[e].get(f, "SUFFIX_FAILED") + ","
+					elif 'ʲ' in e:
+						tmp_p = re.sub(r'ʲ', r'', e)
+						if features.get(tmp_p):
+							stats_line = stats_line + features[tmp_p].get(f, "SUFFIX_FAILED") + ","
+					elif not e:
+						#If suffix is empty for some reason:
+						stats_line = stats_line + features['#'].get(f, "") + ","
+
+
 				if d[i].ind_yer(j)[1]:
 					form_yer = "TRUE"
 				else:
@@ -370,19 +391,40 @@ def statistics_no_yer(d, path, features, pnt = False):
 		if len(temp_prefix) > 1: prefix_sing = temp_prefix[-1]
 		elif len(temp_prefix) == 0: prefix_sing = ''
 		it = [concatenate(temp_root), concatenate(temp_prefix), inflect_info[1], inflect_info[2], consonant_seq_before(temp_prefix), temp_suffix, prefix_sing, temp_suffix[0]]
-		print(it)
+		#print(it)
 		stats_line = ''
 		#Make it a loop to improve readability
 		for e in it:
+			if e == '': e = '#'
 			stats_line += e + ","
 
 		#then, for each feature for the before_seg and after_seg, add +/-
 		if features.get(prefix_sing):
 			for f in features[prefix_sing].keys():
-				stats_line = stats_line + features[prefix_sing].get(f, "") + ","
+				stats_line = stats_line + features[prefix_sing].get(f, "PREFIX_FAILED") + ","
+		elif 'ʲ' in prefix_sing:
+			tmp_p = re.sub(r'ʲ', r'', prefix_sing)
+			if features.get(tmp_p):
+				for f in features[tmp_p].keys():
+					stats_line = stats_line + features[tmp_p].get(f, "PREFIX_FAILED") + ","
+				#set markert for palatal here
+		elif not prefix_sing:
+			#If prefix is empty for some reason:
+			for f in features['#'].keys():
+				stats_line = stats_line + features['#'].get(f, "FAILED") + ","
+
 		if features.get(temp_suffix[0]):
 			for f in features[temp_suffix[0]].keys():
-				stats_line = stats_line + features[temp_suffix[0]].get(f, "") + ","
+				stats_line = stats_line + features[temp_suffix[0]].get(f, "SUFFIX_FAILED") + ","
+		elif 'ʲ' in temp_suffix[0]:
+			tmp_p = re.sub(r'ʲ', r'', temp_suffix[0])
+			if features.get(tmp_p):
+				for f in features[tmp_p].keys():
+					stats_line = stats_line + features[tmp_p].get(f, "SUFFIX_FAILED") + ","
+		elif not temp_suffix:
+			#If suffix is empty for some reason:
+			for f in features['#'].keys():
+				stats_line = stats_line + features['#'].get(f, "FAILED") + ","
 
 		fle.write(stats_line + "FALSE,FALSE\n")
 			
@@ -628,7 +670,7 @@ def main(load = False):
 	yer_found = remove_items(yer_found, "eczek", True)
 	yer_found = remove_items(yer_found, "ek", True)
 
-	print(yer_found)
+	#print(yer_found)
 	
 	
 	
