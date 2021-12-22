@@ -301,20 +301,20 @@ def statistics_no_yer(d, path, features, pnt = False):
 	"""
 	fle = open(path, "a+")
 	#Split inflectional info on ; ? 
-	first_line = "FORM,PREFIX,CASE,PLURAL,BEFORE_SEQ,AFTER_SEQ,BEFORE_SING,AFTER_SING,"
+	#first_line = "FORM,PREFIX,CASE,PLURAL,BEFORE_SEQ,AFTER_SEQ,BEFORE_SING,AFTER_SING,"
 	#this is honestly excessive, but i want to keep the features as arbitrary as possible
 	temp_feat = random.choice(list(features.keys()))
 	temp_feat = features[temp_feat]
 	temp_feat = temp_feat.keys()
 	
 	#Cluster before_ and after_ segments together
-	for f in temp_feat:
-		first_line += "LEFT_" + f.upper() + ","
-	for f in temp_feat:
-		first_line += "RIGHT_" + f.upper() + ","
+	#for f in temp_feat:
+	#	first_line += "LEFT_" + f.upper() + ","
+	#for f in temp_feat:
+	#	first_line += "RIGHT_" + f.upper() + ","
 		
-	first_line += "PARADIGM_YER,FORM_YER\n"
-	fle.write(first_line)
+	#first_line += "PARADIGM_YER,FORM_YER\n"
+	#fle.write(first_line)
 
 	count = 0
 		
@@ -542,6 +542,7 @@ def main(load = False):
 				yer_bool = False 
 
 				for ch_pos in domain(temp):
+					#if root and not inflected
 					if vowel(temp[ch_pos]) != vowel(bundles[root][inflected_form][ch_pos]):
 						yer_bool = True
 						#if, for any consonant in one form, the corresponding character in the 
@@ -554,6 +555,7 @@ def main(load = False):
 						if not yer_found_par.get(root):
 							yer_found_par[root] = Paradigm(root, yer_found[root]['prefix'])
 						yer_found_par[root].update(bundles[root][inflected_form], re.sub(r"[,\s]", r"", inflected_form), False)
+					#elif inflected and not root
 					
 				if not yer_bool:
 					#If there is no yer found, will write the items to a list to mark as yer_free
