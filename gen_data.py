@@ -210,7 +210,15 @@ def statistics(d, path, features, pnt = False):
 	
 	fle = open(path, "w+")
 	#Split inflectional info on ; ? 
-	first_line = "FORM,PREFIX,CASE,PLURAL,BEFORE_SEQ,AFTER_SEQ,BEFORE_SING,AFTER_SING,"
+
+	fle.write("%Polish yer prediction\n@relation polish_yer\n\n")
+
+	
+	first_line_attributes = {"FORM":"string", "PREFIX":"string", "CASE":"string", "PLURAL":"string",
+			"BEFORE_SEQ":"string", "AFTER_SEQ" :"string", "BEFORE_SING":"string", "AFTER_SING":"string"}
+	first_line = ""
+	for att in first_line_attributes.keys():
+		first_line += "@attribute " + att + " " + first_line_attributes[att] + "\n"
 	#this is honestly excessive, but i want to keep the features as arbitrary as possible
 	temp_feat = random.choice(list(features.keys()))
 	temp_feat = features[temp_feat]
@@ -218,12 +226,16 @@ def statistics(d, path, features, pnt = False):
 	
 	#Cluster before_ and after_ segments together
 	for f in temp_feat:
-		first_line += "LEFT_" + f.upper() + ","
+		first_line += "@attribute LEFT_" + f.upper() + "{+, -, 0}\n"
 	for f in temp_feat:
-		first_line += "RIGHT_" + f.upper() + ","
+		first_line += "@attribute RIGHT_" + f.upper() + "{+, -, 0}\n"
 		
-	first_line += "PARADIGM_YER,FORM_YER\n"
+	first_line += "@attribute PARADIGM_YER {TRUE,FALSE}\n"
+	first_line += "@attribute FORM_YER {TRUE,FALSE}\n"
 	fle.write(first_line)
+
+	fle.write("\n\n")
+	fle.write("@data\n")
 	
 	count = 0
 		
@@ -607,8 +619,8 @@ def main(load = False):
 				vals[feature_columns[pos]] = phone[pos]
 		features[phone[0]] = vals
 			
-	statistics(yer_found_par, "data/stats_before_ek.csv", features)
-	statistics_no_yer(yer_not_found, "data/stats_before_ek.csv", features)
+	statistics(yer_found_par, "data/stats_before_ek.arff", features)
+	statistics_no_yer(yer_not_found, "data/stats_before_ek.arff", features)
 	#repeat stats on non-yers words, appending to same path	
 	
 	#repeat above without diminutives
