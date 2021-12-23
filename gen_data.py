@@ -211,11 +211,20 @@ def statistics(d, path, features, pnt = False):
 	fle = open(path, "w+")
 	#Split inflectional info on ; ? 
 
+	prefix_d = {}
+	suffix_d = {}
+
 	fle.write("%Polish yer prediction\n@relation polish_yer\n\n")
 
 	
-	first_line_attributes = {"FORM":"string", "PREFIX":"string", "CASE":"string", "PLURAL":"string",
-			"BEFORE_SEQ":"string", "AFTER_SEQ" :"string", "BEFORE_SING":"string", "AFTER_SING":"string"}
+	first_line_attributes = {"FORM":"string", 
+							"PREFIX":"string", 
+							"CASE":"{ACC, INS, NOM, ESS, DAT, VOC, GEN}", 
+							"PLURAL":"{SG, PL}",
+							"BEFORE_SEQ":"string", 
+							"AFTER_SEQ" :"string", 
+							"BEFORE_SING":"{t, n, l, b, k, s, j, r, ʐ, d, w, t͡s, z, rʲ, v, g, m, ɲ, lʲ, f, fʲ, kʲ, mʲ, pʲ, #, ʂ, vʲ, x, gʲ, t͡ʂ, p, tʲ, xʲ, ʑ, bʲ, t͡sʲ, ɕ, ʐʲ, dʲ, t}", 
+							"AFTER_SING":"{m, ɲ, n, v, t, x, k, ɕ, s, z, r, ʐ, w, d, ʑ, p, ʂ, f, ɔ, ɛ, l, j, g, b, t͡s, t͡ʂ}"}
 	first_line = ""
 	for att in first_line_attributes.keys():
 		first_line += "@attribute " + att + " " + first_line_attributes[att] + "\n"
@@ -306,6 +315,11 @@ def statistics(d, path, features, pnt = False):
 						#If suffix is empty for some reason:
 						stats_line = stats_line + features['#'].get(f, "") + ","
 
+				if not prefix_d.get(b[-1]):
+					prefix_d[b[-1]] = True 
+				if not suffix_d.get(e):
+					suffix_d[e] = True
+
 
 				if d[i].ind_yer(j)[1]:
 					form_yer = "TRUE"
@@ -323,6 +337,7 @@ def statistics(d, path, features, pnt = False):
 	#return (env_before, env_after, immediate_before, immediate_after, count)
 	if pnt: print("Stats for", path, "complete!")
 	fle.close()
+	print(prefix_d.keys(), suffix_d.keys())
 
 def statistics_no_yer(d, path, features, pnt = False):
 	"""
@@ -339,6 +354,9 @@ def statistics_no_yer(d, path, features, pnt = False):
 	temp_feat = random.choice(list(features.keys()))
 	temp_feat = features[temp_feat]
 	temp_feat = temp_feat.keys()
+
+	prefix_d = {}
+	suffix_d = {}
 	
 	#Cluster before_ and after_ segments together
 	#for f in temp_feat:
@@ -398,6 +416,11 @@ def statistics_no_yer(d, path, features, pnt = False):
 			if e == '': e = '#'
 			stats_line += e + ","
 
+		if not prefix_d.get(prefix_sing):
+			prefix_d[prefix_sing] = True
+		if not suffix_d.get(temp_suffix[0]):
+			suffix_d[temp_suffix[0]] = True
+
 		#then, for each feature for the before_seg and after_seg, add +/-
 		if features.get(prefix_sing):
 			for f in features[prefix_sing].keys():
@@ -432,6 +455,7 @@ def statistics_no_yer(d, path, features, pnt = False):
 	#return (env_before, env_after, immediate_before, immediate_after, count)
 	if pnt: print("Stats for", path, "complete!")
 	fle.close()
+	print(prefix_d.keys(), suffix_d.keys())
 	
 def strip_text(txt):
 	"""
@@ -670,8 +694,8 @@ def main(load = False):
 	yer_found = remove_items(yer_found, "eczek", True)
 	yer_found = remove_items(yer_found, "ek", True)
 
-	#print(yer_found)
-	
+	statistics(yer_found_par, "data/stats_after_ek.arff", features)
+	statistics_no_yer(yer_not_found, "data/stats_after_ek.arff", features)	
 	
 	
 	
