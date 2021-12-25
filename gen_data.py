@@ -691,8 +691,8 @@ def main(load = False):
 	
 	#repeat above without diminutives
 	
-	yer_found = remove_items(yer_found, "eczek", True)
-	yer_found = remove_items(yer_found, "ek", True)
+	yer_found_par = remove_items(yer_found_par, "eczek", True)
+	yer_found_par = remove_items(yer_found_par, "ek", True)
 
 	statistics(yer_found_par, "data/stats_after_ek.arff", features)
 	statistics_no_yer(yer_not_found, "data/stats_after_ek.arff", features)	
