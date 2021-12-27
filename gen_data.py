@@ -81,6 +81,12 @@ def feature_dictionary(labels: list, values: list) -> dict:
 		rtn[labels[i]] = values[i]
 	return rtn 
 
+def found_in_tuple_list(itm: str, lst: list):
+	for t in lst:
+		if itm in t[0]:
+			return True
+	return False
+
 def no_yer_statistics(d, path, features, pnt = False):
 	"""
 	A simplified version of the statistics() function.
@@ -119,7 +125,7 @@ def remove_items(d_yer, d_no_yer, suffix: str, after = False) -> dict:
 	to_pop:	a Boolean - if true, an item is not copied from d to d_copy 
 	"""
 	d_copy = {}
-	for i in d:
+	for i in d_yer:
 		if not after and suffix in i:
 			#allow for consonants (but not vowels) to follow the suffix to be removed
 			temp = i.split(suffix)
@@ -130,11 +136,13 @@ def remove_items(d_yer, d_no_yer, suffix: str, after = False) -> dict:
 					to_pop = True
 					
 			if not to_pop:
-				d_copy[i] = d[i]
+				d_copy[i] = d_yer[i]
 		else:
 			#suffix has to be at end of word 
-			if (suffix not in i) or (suffix in i and i.endswith(suffix) and re.sub(suffix, r"", i) not in d.keys() and re.sub(suffix, r"", i) not in d_no_yer.keys()):
-				d_copy[i] = d[i]
+			if (suffix not in i) or (suffix in i and i.endswith(suffix) and re.sub(suffix, r"", i) not in d_yer.keys() and found_in_tuple_list(re.sub(suffix, r"", i), d_no_yer)):
+				d_copy[i] = d_yer[i]
+			else: 
+				print(i, "removed.")
 		
 	return d_copy
 
@@ -338,7 +346,7 @@ def statistics(d, path, features, pnt = False):
 	#return (env_before, env_after, immediate_before, immediate_after, count)
 	if pnt: print("Stats for", path, "complete!")
 	fle.close()
-	print(prefix_d.keys(), suffix_d.keys())
+	#print(prefix_d.keys(), suffix_d.keys())
 
 def statistics_no_yer(d, path, features, pnt = False):
 	"""
@@ -456,7 +464,7 @@ def statistics_no_yer(d, path, features, pnt = False):
 	#return (env_before, env_after, immediate_before, immediate_after, count)
 	if pnt: print("Stats for", path, "complete!")
 	fle.close()
-	print(prefix_d.keys(), suffix_d.keys())
+	#print(prefix_d.keys(), suffix_d.keys())
 	
 def strip_text(txt):
 	"""
@@ -692,8 +700,8 @@ def main(load = False):
 	
 	#repeat above without diminutives
 	
-	yer_found_par = remove_items(yer_found_par, "eczek", True)
-	yer_found_par = remove_items(yer_found_par, "ek", True)
+	yer_found_par = remove_items(yer_found_par, yer_not_found, "eczek", True)
+	yer_found_par = remove_items(yer_found_par, yer_not_found, "ek", True)
 
 	statistics(yer_found_par, "data/stats_after_ek.arff", features)
 	statistics_no_yer(yer_not_found, "data/stats_after_ek.arff", features)	
