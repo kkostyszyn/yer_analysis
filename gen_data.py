@@ -232,7 +232,7 @@ def statistics(d, path, features, pnt = False):
 							"PLURAL":"{SG, PL}",
 							"BEFORE_SEQ":"string", 
 							"AFTER_SEQ" :"string", 
-							"BEFORE_SING":"{t, n, l, b, k, s, j, r, ʐ, d, w, t͡s, z, rʲ, v, g, m, ɲ, lʲ, f, fʲ, kʲ, mʲ, pʲ, #, ʂ, vʲ, x, gʲ, t͡ʂ, p, tʲ, xʲ, ʑ, bʲ, t͡sʲ, ɕ, ʐʲ, dʲ, t}", 
+							"BEFORE_SING":"{t, n, l, b, k, s, j, r, ʐ, d, w, t͡s, z, rʲ, v, g, m, ɲ, lʲ, f, fʲ, kʲ, mʲ, pʲ, #, ʂ, vʲ, x, gʲ, t͡ʂ, p, tʲ, xʲ, ʑ, bʲ, t͡sʲ, ɕ, ʐʲ, dʲ}", 
 							"AFTER_SING":"{m, ɲ, n, v, t, x, k, ɕ, s, z, r, ʐ, w, d, ʑ, p, ʂ, f, ɔ, ɛ, l, j, g, b, t͡s, t͡ʂ}"}
 	first_line = ""
 	for att in first_line_attributes.keys():
