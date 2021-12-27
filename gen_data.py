@@ -105,11 +105,12 @@ def prefix(st: str, pos: int):
 	"""
 	return st[:pos]
 	
-def remove_items(d, suffix: str, after = False) -> dict:
+def remove_items(d_yer, d_no_yer, suffix: str, after = False) -> dict:
 	"""
 	Removing items with substring from list.
 	
-	d:	the initial dictionary, where items will be removed based on their keys.
+	d_yer:	the initial dictionary, where items will be removed based on their keys.
+	d_no_yer:	a second dictionary, to check if items without diminutives exist in the lexicon
 	suffix:		a substring of the key that must be removed (if after==False, may not strictly be a suffix)
 	after:		a Boolean that tells if the suffix is necessarily word final   
 	
@@ -132,7 +133,7 @@ def remove_items(d, suffix: str, after = False) -> dict:
 				d_copy[i] = d[i]
 		else:
 			#suffix has to be at end of word 
-			if (suffix not in i) or (suffix in i and i.endswith(suffix) and re.sub(suffix, r"", i) not in d.keys()):
+			if (suffix not in i) or (suffix in i and i.endswith(suffix) and re.sub(suffix, r"", i) not in d.keys() and re.sub(suffix, r"", i) not in d_no_yer.keys()):
 				d_copy[i] = d[i]
 		
 	return d_copy
